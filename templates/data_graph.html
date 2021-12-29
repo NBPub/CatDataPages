@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Data Graphing{% endblock %}
+
+{% block content %}
+  <p class="ms-2 text-secondary">
+	Page contents: 
+	<a class="link-secondary" href="#spider">Matplotlib - Cat Stats Spider Plot</a> •
+	<a class="link-secondary" href="#globe">Plotly - Cat Origins Map</a> • 
+	<a class="link-secondary" href="#previous">Previous</a>
+  </p>
+  
+  <h1> Graphing Examples </h1>
+    <p class="fs-5 ms-1">The data table was used to generate graphs on the <span class="fw-bold">Cat Data</span> pages, the <span class="fw-bold">Data Exploration</span> pages, and the <span class="fw-bold">Cat Map</span>. Two examples, using each of the two graphing packages are shown below.
+	See the project's <a href="https://github.com/NBPub/CatDataPages">GitHub</a> page for other graphs' codes.</p>
+    <br /><hr />
+  
+  <h2 id="spider">Matplotlib - Radar / Spider Plot of Cat Stats</h2>
+    <p class="fs-5 ms-1">The following example generates a figure, as seen on the cat data pages. A random cat is generated as shown on the <a href="{{ url_for('processing') }}#persist">previous page</a>, and its stats as well as the average stats were selected and used for graphing.</p>
+    <div class="bg-dark text-white m-2"><pre><code>
+	from pathlib import Path
+	import pandas as pd
+	import numpy as np
+	import matplotlib.pyplot as plt
+	
+	data = pd.read_csv(Path(Path.cwd(),'subfolder', 'catdata.csv'), index_col = 'name', na_filter = False) <span class="text-warning"># Path is simply an example, persisted from the previous page</span>
+	statsCol = pd.Series(pd.read_csv(Path(Path.cwd(),'subfolder','stats.csv'), index_col = 0)['0'], name = 'Cols') <span class="text-warning"># see previous page for generation of "data" and "statsCol"</span>
+	
+	n_cats = data.shape[0]-1
+	random_cat = pd.Series(data.index[:-1]).sample().values[0]
+	cat_stats = data.loc[random_cat,statsCol]
+	avg_stats = data.loc[data.index[-1],statsCol] <span class="text-warning"># last row is average</span>
+
+	catTheta = np.append(cat_stats,(cat_stats[0])) <span class="text-warning"># repeat first value to close circle </span>
+	avgTheta = np.append(avg_stats,(avg_stats[0]))
+	angles = [x / avg_stats.shape[0] * 2 * np.pi for x in range(avg_stats.shape[0])] <span class="text-warning"># radian values for data points, evenly spaced around circle</span>
+	angles2 = np.append(angles, angles[0]) <span class="text-warning"># repeat first value to close circle </span>
+	
+	labeler = [val.replace('_',' ').capitalize() for val in cat_stats.index.values] <span class="text-warning"># more readable labels </span>
+	avg_text = f'{avg_stats.name} (n={n_cats})' <span class="text-warning"># include number of cats considered in average </span>
+		
+	plt.figure(figsize = (8,7), dpi = 150, tight_layout=True) <span class="text-warning"># Text specs need to vary with figure size to keep things pretty</span>
+	ax = plt.subplot(111, polar = "True")
+	ax.spines['polar'].set_visible(False)
+	plt.ylim(0,6) <span class="text-warning"># extend axis lines past 5</span>
+
+	<span class="text-warning"># plot sample data over mean as background</span>
+	plt.fill(angles2,catTheta,alpha = 0.25, color = 'cyan', ec ='darkcyan', linewidth = 2, linestyle ='-')
+	plt.fill(angles2,avgTheta,alpha = 0.20, color = 'coral', ec='orangered')
+
+	<span class="text-warning"># ticks, axes labels</span>
+	plt.xticks(angles,labeler, fontweight = 'bold' )
+	plt.yticks([1,2,3,4,5], fontsize=0)
+	for num in [1,3,5]:
+		plt.text(np.pi*5/12, num, num, fontsize = 12, fontweight='bold')
+		
+	<span class="text-warning"># sample value labels</span>
+	bbox_props = dict(boxstyle="circle, pad = 0.22", fc="cyan", ec="darkcyan", lw=2)
+	for i,val in enumerate(cat_stats):
+		ax.text(angles[i], int(val), str(int(val)), color = 'black', fontweight = 'bold', bbox=bbox_props)
+
+	<span class="text-warning"># title / legend</span>
+	plt.title(cat_stats.name, loc='left', fontsize=18, fontweight='bold', color = 'darkcyan')
+	plt.text(3*np.pi/4,8.8, avg_text, fontsize = 12, fontweight = 'bold', color = 'orangered')
+
+	<span class="text-warning"># Show / Save</span>
+	plt.plot()
+	plt.savefig(Path(Path.cwd(),'subfolder', 'mpl-graphs',f'{cat_stats.name}_radar.png'))
+    </code></pre></div>
+	<br /><hr />
+
+
+  <h2 id="globe">Plotly - Map of Cat Origins</h2>
+    <p class="fs-5 ms-1">Plotly can generate interactive plots in HTML. The cats' origins were used to populate a <a href="{{ url_for('map_cats') }}">world map</a> that shows how many cats, and which ones, originate from a country.
+	See <a href="https://plotly.com/python/choropleth-maps/#using-builtin-country-and-state-geometries"> Choropleth Maps</a> and <a href="https://plotly.com/python/scatter-plots-on-maps/">Scatter Plots on Maps</a> for more information. 
+	I haven't figured out how to best integrate these plots into the website. I may try to improve the Plotly pages in future updates to the site.</p>
+	
+    <div class="bg-dark text-white m-2"><pre><code>
+	from pathlib import Path
+	import pandas as pd
+	import plotly.express as px
+	import plotly.utils as pu <span class="text-warning"># JSON Encoder used to integrate into webpages, HTML file also used in "raw-map"</span>
+
+	data = pd.read_csv(Path(Path.cwd(),'subfolder', 'catdata.csv'), index_col = 'name', na_filter = False) <span class="text-warning"># Path is simply an example, persisted from the previous page</span>
+	cat_locs = data.loc[:,['origin','country_code']] <span class="text-warning"># Extract location information into data table</span>
+	cat_locs = cat_locs.iloc[:-1,:] <span class="text-warning"># Remove CatAPI Average</span>
+	
+	<span class="text-warning"># Prepare new data table</span>
+	locs = pd.DataFrame(cat_locs.value_counts()).reset_index() <span class="text-warning"># organize by number of cats from country (origin)</span>
+	locs.columns = (['origin','code','# cats']) <span class="text-warning"># rename columns</span>
+	locs['cats'] = [', '.join(cat_locs[cat_locs.origin == val].index) for val in locs['origin']] <span class="text-warning"># Get cats belonging to country</span>
+	locs['origin'] = [f'{locs.loc[val,"origin"]} ({locs.loc[val,"# cats"]})' for val in locs.index] <span class="text-warning"># Add cat number to entries for hover label</span>
+
+	<span class="text-warning"># Generate plot</span>
+	fig = px.choropleth(locs, locations="code", color="# cats", hover_name="origin",
+                            hover_data = {'code': False, '# cats': False, 'cats': True,},
+                            color_continuous_scale=px.colors.sequential.Emrld)
+
+	fig.update_geos(showcountries = True, coastlinewidth = 1.5, landcolor = '#dedede', lakecolor = '#b0ceff', 
+		        showocean = True, oceancolor = '#b0ceff', showrivers = True, rivercolor = '#b0ceff',
+		        projection_type = 'natural earth', fitbounds = "locations")
+
+	<span class="text-warning"># Show / Save</span>
+	fig.show() <span class="text-warning"># output can vary depending on IDE used</span>
+	fig.write_html(Path(Path.cwd(),'subfolder', 'plotly-graphs','catmap.html')) <span class="text-warning"># html to file, can be opened in web-browser</span>
+	graphJSON = json.dumps(fig, cls=pu.PlotlyJSONEncoder) <span class="text-warning"># graphJSON could be passed directly to page or saved to file</span>
+	</code></pre></div>
+	
+<hr />	
+	<p id="previous" class="ms-2 text-secondary"> &lt; <a class="link-secondary" href="{{ url_for('big_table') }}">Data Table</a> previous </p>
+	<p class="ms-2 text-secondary"> &lt;&lt; <a class="link-secondary" href="{{ url_for('processing') }}">Processing</a> further </p>
+	<p class="ms-2 text-secondary"> &lt;&lt;&lt; <a class="link-secondary" href="{{ url_for('background') }}">Background</a> data story start </p>	
+
+{% endblock %}

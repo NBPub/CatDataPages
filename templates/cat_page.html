@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}{{ cat }}{% endblock %}
+
+{% block content %}
+	<h1>{{ cat }}</h1>
+	  {% if AKA[0] %}
+		<p class="ms-1 fw-bold">AKA: 
+		  {% for alt_name in AKA %}
+			• {{ alt_name }}
+		  {% endfor %}
+		</p>
+	  {% endif %}
+	  <p class="ms-2">{{origin}} <a href="{{ wiki }}"> wikipedia</a> </p>
+	  <p class="ms-2 text-secondary">
+	    Page contents: 
+	    <a class="link-secondary" href="#Attributes">Attributes</a> •
+	    <a class="link-secondary" href="#spider">Spider/Radar Graph</a> •
+	    <a class="link-secondary" href="#binaries">Binaries Graph</a> •
+		<a class="link-secondary" href="#ranges">Ranges Graph</a> •
+		<a class="link-secondary" href="#DataTable">Data Table</a>
+	  </p>
+
+	  <p class="ps-2"> {{ description }} </p>
+	  <img src="{{ cat_image }}" class="img-fluid" alt="{{ cat }}"/>	
+
+	  
+	  
+	<br /><hr />
+	
+	<h2 id="Attributes" class="ms-1">{{temperament}}</h2>
+	  <hr style="width:50%;text-align:left;margin-left:0">
+	
+	  <p class="fs-5 ms-2 fw-bold">
+		{% for unit,span in spans.items() %}
+		  {{ span }} {{ unit }} &emsp; 
+		{% endfor %}
+	  </p>
+	  <p class="fs-5 ms-2 fw-bold">
+		{% for trait in binaries.index %}
+		  • {{ trait }} &nbsp; 
+		{% endfor %}
+	  </p>
+	  
+	  <hr style="width:50%;text-align:left;margin-left:0">
+	  <!-- Insert graph images-->	
+	  {% for graph, path in graph_paths.items() %}
+	    
+	    <img id="{{ graph }}" src="{{ url_for('static', filename=path) }}" class="img-fluid" alt="{{ cat }} {{ graph }}"/>
+	  {% endfor %}
+	
+	  <br /><hr />
+	  
+	<h2>Tabular Data</h2>
+	  <br />
+	  <p id="DataTable">{{ cat_table | safe }}</p>
+{% endblock %}

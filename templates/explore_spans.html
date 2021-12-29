@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Explore Cat Spans{% endblock %}
+
+{% block content %}
+  <p class="ms-2 text-secondary">
+	Page contents: 
+	<a class="link-secondary" href="#graph">Graph</a> •	
+	<a class="link-secondary" href="#explore">Explore Data Links</a>
+  </p>
+  
+<h2>Cat Spans - Visualizing Distribution</h2>
+<br />
+  <p class="fs-5 ms-1">The "<a href="{{ url_for('processing') }}#Characterization">spans</a>" data contains information about cat weight and expected life span. 
+  The dataset isn't as large as <span class="fw-bold">stats</span> or as intriguing to me as <span class="fw-bold">words</span>. Therefore, this page is less populated than the others.<br />
+  In the other data exploration pages, <a href="https://en.wikipedia.org/wiki/Histogram">histograms</a> were presented without significant discussion. So on this page, you will have finer control on how a histogram is presented.
+  You can see how your selections change the visualization of the data's distribution.
+  <br /><br />
+  For each entry in the spans data, bounds were averaged to a single number. Therefore the data (previously a range of two integers) has a maximum step size of 0.5. 
+  As you explore the spans attributes, their various ranges and distributions will become apparent.
+  <br /><br />
+  Choose the span data type, number of bins to try, and then hit submit to generate a histogram. Notice how the range for each bin varies with your chosen number of bins.
+  </p>
+  
+  {% if chart %}
+	<p class="fs-4 ms-1 fw-bold" id="result">{{ name }}</p>
+	<p class="fs-5 ms-2 fw-bold">{{ bins }} bins, {{ maxbins }} unique values</p>
+    <div id='chart' class='chart'></div>
+	<p class="ms-2 text-secondary">Reload the page to format graph bounds to a re-sized window.</p>
+	<p class="ms-2 fw-bold">Choose parameters for another histogram:</p>
+  {% else %}
+    <p class="ms-2 fw-bold" id="graph">Choose parameters for a histogram:</p>
+  {% endif %}
+  
+  <form method="POST" action="{{ url_for('explore_spans') }}#result">
+	<div class="mb-3">
+		<p class="ms-2 text-secondary">Select span data</p>
+		<select class="form-select" size="3" aria-label="select example" name="colInput" required>
+		   {% for key in choices %}
+		      <option value="{{ key }}">{{ key }}</option>
+		   {% endfor %}
+		</select>
+	</div>
+	<div class="input-group mb-3">
+	  <input type="number" class="form-control" id="binInput" name="binInput" placeholder="Choose number of bins" aria-describedby="basic-addon" required>
+	  <span id="basic-addon" class="input-group-text">0 = auto-select</span>		  		
+	</div>
+
+	<button type="submit" class="btn btn-primary ms-3">Submit</button>
+  </form>
+
+  <br /><hr />
+  <p id="explore" class="ms-2 text-secondary">
+    <a class="link-secondary" href="{{ url_for('explore_stats') }}">Stats</a> • <a class="link-secondary" href="{{ url_for('explore_words') }}">Words</a>
+  </p>
+
+ 
+
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>	
+  var graphs = {{chart | safe}};
+  Plotly.plot('chart',graphs,{});
+</script>
+
+{% endblock %}

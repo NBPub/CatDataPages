@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Explore Cat Words{% endblock %}
+
+{% block content %}
+  <p class="ms-2 text-secondary">
+	Page contents: 
+	<a class="link-secondary" href="#chart">Graph</a> •	
+	<a class="link-secondary" href="#tables">Tables</a> •
+	<a class="link-secondary" href="#scores-txt">Scores</a> •
+	<a class="link-secondary" href="#explore">Explore Data Links</a>
+  </p>
+  
+<h2>Cat Words - Assessing Temperament</h2>
+<br />
+  <p class="fs-5 ms-1">The "<a href="{{ url_for('processing') }}#Characterization">words</a>" data is less obvious to interpret statistically. A cursory distribution of cat origin's can be viewed on the <a href="{{ url_for('map_cats') }}">map</a>.
+  This page presents information from the <span class="fw-bold">temperament</span> column of the <a href="{{ url_for('big_table') }}">data table</a>. To start, each word was extracted from each entry, and then occurences of each word were counted. 
+  <br /><span class="fw-bold">46 unique words were found.</span>
+  <br /><br />
+  The histogram below shows the distribution of words describing cats. A few words describe many cats (right-side), but lot of words only describe one or a few different cats (left-side).
+  Note that the range on the bars is inclusive, so the first bar from the left counts the words that occured only once (0-1), and the second bar counts the words that occured twice or thrice (2-3). 
+  These two ranges accounted for 24 of the 46 words found!
+  A <a href="https://en.wikipedia.org/wiki/Violin_plot"</a>violin plot</a> was overlaid on top of the figure.</p>
+  
+  
+  <p class="ms-2 text-secondary">Reload the page to format graph bounds to a re-sized window.</p>
+  
+	<div id='chart' class='chart'></div>
+  <p class="fs-5 ms-1"></p>
+  <hr />
+  
+<h2 id="tables">Temperament Word Count Tables</h2>
+  <p class="fs-5 ms-1">The data on the above graph is further illustrated in the following tables. The first table lists the most common words, which populated the bars starting at 10 (Cats described by Word).
+  It is assumed that a particular cat does not have word(s) repeated in its temperament section, and therefore the number of times a word occurs is the number of cats it describes.
+  The rarer words (one or two cats) are on the last two tables, and the cat(s) described by each word were added.<br /></p>
+  
+  <p id="table-list" class="ms-2 text-secondary">
+	Table List: 
+	<a class="link-secondary" href="#bigs">Most Common</a> •
+	<a class="link-secondary" href="#mids">Less Common</a> •
+	<a class="link-secondary" href="#twos">Two Occrences</a> •
+	<a class="link-secondary" href="#ones">One Occurence</a> •
+	<a class="link-secondary" href="#scores">Cat Scores</a>
+  </p>
+  
+  <p class="fs-5 ms-1 fw-bold">10 or more times</p>
+  <p id="bigs"> {{ table_bigs | safe }}</p>
+  <br />
+  
+  <p class="fs-5 ms-1 fw-bold">3-9 times:</p>
+  <p id="mids"> {{ table_mids | safe }}</p>
+  <br />
+  
+  <p class="fs-5 ms-1 fw-bold">Twice:</p>
+  <p id="twos"> {{ table_twos | safe }}</p>
+  <br />
+  
+  <p class="fs-5 ms-1 fw-bold">Once:</p>
+  <p id="ones"> {{ table_ones | safe }}</p>
+  <br />
+  <p class="fs-5 ms-1" id="scores-txt"> Lastly, a score was calculated for each cat based on the total occurences of each of its temperament words.
+  A cat with a high score has words in its temperament description that have been applied to many other cats. Scores were normalized by the number of words in a cat's temperament description, and can be used to assess more uniquely described cats. 
+  More unique cats (lower normalized scores) are at the top of the table.</p>
+  <p class="fs-5 ms-1 fw-bold">Cat Scores:</p>
+  <p id="scores"> {{ table_scores | safe }}</p>
+
+<hr />
+<p id="explore" class="ms-2 text-secondary">
+  <a class="link-secondary" href="#">Stats</a> • <a class="link-secondary" href="{{ url_for('explore_spans') }}">Spans</a>
+</p>
+
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>	
+  var graphs = {{chart | safe}};
+  Plotly.plot('chart',graphs,{});
+</script>
+{% endblock %}
+
+
+  
+  

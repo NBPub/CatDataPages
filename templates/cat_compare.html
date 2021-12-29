@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Cat Compare{% endblock %}
+
+{% block content %}
+  {% if image_one %}
+	<p class="ms-2 text-secondary">
+	  Page contents: 
+	  <a class="link-secondary" href="#words">Descriptions</a> •
+	  <a class="link-secondary" href="#spans">Spans</a> •
+	  <a class="link-secondary" href="#stats">Stats</a> •
+	  <a class="link-secondary" href="#binary">Binary Attributes</a> •
+	  <a class="link-secondary" href="#compare">Compare Cats</a>
+	</p>
+  {% else %}
+    <p class="ms-2 text-secondary">
+      Page contents: 
+	  <a class="link-secondary" href="#compare">Compare Cats</a>
+	</p>
+  {% endif %}
+  
+<h2>Cat Comparison</h2>
+  
+  {% if image_one %}
+    <div class="container" id="result">
+	  <div class="row align-items-start">
+	    <div class="col">
+	      <a class="fs-4 ms-1 fw-bold" href="{{ url_for('cat_page', cat=cat_one) }}">{{ cat_one }}</a>
+		  <image class="img-fluid" src="{{ image_one }}" alt="{{ cat_one }}">
+		</div>
+		<div class="col">
+		  <p class="fs-4 ms-5 fw-bold"> vs
+		</div>
+		<div class="col">
+		  <a class="fs-4 ms-1 fw-bold" href="{{ url_for('cat_page', cat=cat_two) }}"> {{ cat_two }}</a>
+		  <image class="img-fluid" src="{{ image_two }}" alt="{{ cat_two }}">
+		</div>
+	  </div>
+	</div>
+	
+	<div class="table-responsive">
+	  <p id="words" class="ms-3 fw-5 fw-bold">Descriptions: {{ compW | safe }}</p>
+	</div><hr />
+	<p id="spans" class="ms-3 fw-5 fw-bold">Spans: {{ compSpan | safe }}</p><hr />
+	<p id="stats" class="ms-3 fw-5 fw-bold">Stats: {{ compStat | safe }}</p><hr />
+	<p id="binary" class="ms-3 fw-5 fw-bold">Binaries: {{ compBinary | safe }}</p><hr /><br />
+	
+	<p class="ms-2 fs-5 fw-bold">Choose other cats to compare</p>
+	
+  {% else %}
+    <p class="ms-2 fs-5 fw-bold">Choose two cats to compare below.</p>
+  {% endif %}
+  
+  <form method="POST" action="{{ url_for('cat_compare') }}" id="compare">
+	
+	<div class="mb-3">
+		<p class="ms-2 text-secondary fw-bold">First cat</p>
+		  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg" name="Cat One" required>
+			{% for name in names %}
+			  <option value="{{ name }}">{{ name }}</option>
+			{% endfor %}
+		  </select>
+	</div>
+	
+	<div class="mb-3">
+		<p class="ms-2 text-secondary fw-bold">Second cat</p>
+		  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg" name="Cat Two" required>
+			{% for name in names[::-1] %}
+			  <option value="{{ name }}">{{ name }}</option>
+			{% endfor %}
+		  </select>
+	</div>
+	
+	<div class="form-check form-switch">
+	  <input class="form-check-input" type="checkbox" role="switch" id="flexCheckDefault" name="Cat Average" style="height: 30px; width: 90px">
+	  <label class="form-check-label ms-3 fs-5 fw-bold" for="flexCheckDefault">
+		Include Average?
+	  </label>
+	</div>
+	<br /> <br />
+	<button type="submit" class="btn btn-primary ms-3">Submit</button>
+  </form>
+
+  <br /><hr />
+
+{% endblock %}

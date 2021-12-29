@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Data Background{% endblock %}
+
+{% block content %}
+  <p class="ms-2 text-secondary">
+	Page contents:
+	<a class="link-secondary" href="#ty">Made Possible by</a> •
+	<a class="link-secondary" href="#fetch">Data Fetch</a> •
+	<a class="link-secondary" href="#datatable">Initial Data Table</a> •
+	<a class="link-secondary" href="#next">Next</a>
+  </p>
+  <p class="fs-5 ms-1">The <span class="fw-bold">Data Story</span> pages will illustrate how the data was gathered, handled, and delivered to generate the content of this site</p>
+  <h2>Resources</h2>
+    <p class="fs-5 ms-1">This website was created with Python using data from <a href="https://docs.thecatapi.com/">TheCatAPI</a>.
+	 The following Python packages (not all dependencies listed) and resources were used:</p>
+	<ul class="fs-5">
+	  <li><a class="fw-bold" href="https://docs.python-requests.org/en/latest/">Requests</a> was used to query <a href="https://api.thecatapi.com/v1/breeds">TheCatAPI breeds</a> to gather the initial dataset.</li>
+	  <li><a class="fw-bold" href="https://beautiful-soup-4.readthedocs.io/en/latest/">BeautifulSoup</a> was used to fill in missing cat images from <a href="https://wikipedia.org/">Wikipedia</a>.</li>
+	  <li><a class="fw-bold" href="https://pandas.pydata.org/pandas-docs/stable/index.html">Pandas</a> was used to process and deliver the data.</li>
+	  <li><a class="fw-bold" href="https://numpy.org/doc/stable/">Numpy</a> was used to process data and perform operations for graphing.</li>
+	  <li><a class="fw-bold" href="https://matplotlib.org/stable/index.html">Matplotlib</a> was used to generate statically rendered graphs.</li>
+	  <li><a class="fw-bold" href="https://plotly.com/python/">Plotly</a> was used to generate HTML responsive graphs.</li>
+	  <li><a class="fw-bold" href="https://flask.palletsprojects.com/">Flask</a> was used to create the website.</li>
+	  <li><a class="fw-bold" href="https://getbootstrap.com/docs/">Bootstrap</a> was used to style the website.</li>
+	</ul>
+	
+	<h3 class="ms-1" id="ty">Acknowledgements</h3>
+	  <p class="fs-5 ms-1">In addition to the documentation pages linked above, various guides, tutorials, and StackOverflow questions / answers helped me along the journey of making the website. The following list is not exhaustive:</p>
+	    <ul class="fs-5">
+		  <li><a href="https://realpython.com/tutorials/tutorials">RealPython.com</a> various guides were followed, particularly for <a href="https://realpython.com/python-api/">APIs</a> and <a href="https://realpython.com/tutorials/flask/">Flask.</a></li>
+		  <li><a href="https://www.youtube.com/watch?v=mqhxxeeTbu0&list=PLzMcBGfZo4-n4vJJybUVV3Un_NFS5EOgX">Tech With Tim</a> has a great Flask tutorial YouTube playlist.</li>
+		  <li><a href="https://python.plainenglish.io/radar-chart-basics-with-pythons-matplotlib-ba9e002ddbcd">Thiago Carvalho's article</a> helped with Matplotlib radar / spider plots.</li>
+		  <li><a href="https://towardsdatascience.com/web-visualization-with-plotly-and-flask-3660abf9c946">Alan Jones' article</a> helped get Plotly graphs into webpages.</li>
+		  <li><a href="https://gist.github.com/tadast/8827699">Country Code Data</a> from various contributors. A similar <a href="https://github.com/plotly/datasets/blob/master/2014_world_gdp_with_codes.csv">dataset</a> from Plotly could have been used.</li>
+		  <li><a href="https://stackoverflow.com/questions/49921721/runtimeerror-main-thread-is-not-in-main-loop-with-matplotlib-and-flask">Stack Overflow - Matplotlib + Flask</a> fixed bug with threading. See Matplotlib <a href="https://matplotlib.org/3.5.1/users/explain/backends.html">Backends</a>.</li>
+		</ul>
+	
+	
+	<br /><hr />
+  <h2 id="fetch">Data Fetch</h2>
+    <p class="fs-5 ms-1">TheCatAPI was queried and returned data as a JSON. When read into Python, it resulted in a list of dictionaries. Pandas converted the result into a DataFrame, which can be conveniently represented as a table.</p> 
+    <div class="bg-dark text-white m-2"><pre><code>
+	import requests as re
+	import pandas as pd
+	cat = pd.DataFrame(re.get("https://api.thecatapi.com/v1/breeds").json())
+    </code></pre></div>
+	<br /><hr />
+	
+  <h2 id="datatable">Initial Data Table</h2>
+    <p class="fs-5 ms-1">A sample of the resulting table, <span class="fw-bold">cat</span>, is presented below. Notice the various data types in the columns: dictionaries, strings, floats, and integers. 
+	Long strings are cut down for viewing purposes.</p> 
+	
+	<div class="table-responsive-sm">
+	{{
+	'<table border="1" class="table table-dark table-hover table-striped ms-2">\n  
+	<thead>\n    <tr style="text-align: right;">\n      <th></th>\n      <th>weight</th>\n      <th>id</th>\n      <th>name</th>\n      <th>cfa_url</th>\n      <th>vetstreet_url</th>\n      <th>vcahospitals_url</th>\n      <th>temperament</th>\n      <th>origin</th>\n      <th>country_codes</th>\n      <th>country_code</th>\n      <th>description</th>\n      <th>life_span</th>\n      <th>indoor</th>\n      <th>lap</th>\n      <th>alt_names</th>\n      <th>adaptability</th>\n      <th>affection_level</th>\n      <th>child_friendly</th>\n      <th>dog_friendly</th>\n      <th>energy_level</th>\n      <th>grooming</th>\n      <th>health_issues</th>\n      <th>intelligence</th>\n      <th>shedding_level</th>\n      <th>social_needs</th>\n      <th>stranger_friendly</th>\n      <th>vocalisation</th>\n      <th>experimental</th>\n      <th>hairless</th>\n      <th>natural</th>\n      <th>rare</th>\n      <th>rex</th>\n      <th>suppressed_tail</th>\n      <th>short_legs</th>\n      <th>wikipedia_url</th>\n      <th>hypoallergenic</th>\n      <th>reference_image_id</th>\n      <th>image</th>\n      <th>cat_friendly</th>\n      <th>bidability</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>{\'imperial\': \'7  -  10\', \'metric\': \'3 - 5\'}</td>\n      <td>abys</td>\n      <td>Abyssinian</td>\n      <td>http://c...</td>\n      <td>http://w...</td>\n      <td>https://...</td>\n      <td>Active, ...</td>\n      <td>Egypt</td>\n      <td>EG</td>\n      <td>EG</td>\n      <td>The Abys...</td>\n      <td>14 - 15</td>\n      <td>0</td>\n      <td>1.0</td>\n      <td></td>\n      <td>5</td>\n      <td>5</td>\n      <td>3</td>\n      <td>4</td>\n      <td>5</td>\n      <td>1</td>\n      <td>2</td>\n      <td>5</td>\n      <td>2</td>\n      <td>5</td>\n      <td>5</td>\n      <td>1</td>\n      <td>0</td>\n      <td>0</td>\n      <td>1</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>https://...</td>\n      <td>0</td>\n      <td>0XYvRd7oD</td>\n      <td>{\'id\': \'0XYvRd7oD\', \'width\': 1204, \'height\': 1445, \'url\': \'https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg\'}</td>\n      <td>NaN</td>\n      <td>NaN</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>{\'imperial\': \'7 - 10\', \'metric\': \'3 - 5\'}</td>\n      <td>aege</td>\n      <td>Aegean</td>\n      <td>NaN</td>\n      <td>http://w...</td>\n      <td>NaN</td>\n      <td>Affectio...</td>\n      <td>Greece</td>\n      <td>GR</td>\n      <td>GR</td>\n      <td>Native t...</td>\n      <td>9 - 12</td>\n      <td>0</td>\n      <td>NaN</td>\n      <td></td>\n      <td>5</td>\n      <td>4</td>\n      <td>4</td>\n      <td>4</td>\n      <td>3</td>\n      <td>3</td>\n      <td>1</td>\n      <td>3</td>\n      <td>3</td>\n      <td>4</td>\n      <td>4</td>\n      <td>3</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>https://...</td>\n      <td>0</td>\n      <td>ozEvzdVM-</td>\n      <td>{\'id\': \'ozEvzdVM-\', \'width\': 1200, \'height\': 800, \'url\': \'https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg\'}</td>\n      <td>NaN</td>\n      <td>NaN</td>\n    </tr>\n  </tbody>\n</table>'
+	| safe }}
+	</div>
+	<br />
+	<p class="fs-5 ms-1">Continue to the next page to see how the data was processed. Compare the table above to the <a href="{{ url_for('big_table') }}">data table</a> after processing.</p>
+	<hr />
+	
+	<p id="next" class="ms-2 text-secondary"> &gt;  next <a class="link-secondary" href="{{ url_for('processing') }}">Processing</a></p>
+	<p class="ms-2 text-secondary"> &gt;&gt;  after <a class="link-secondary" href="{{ url_for('big_table') }}">Data Table</a></p>
+	<p class="ms-2 text-secondary"> &gt;&gt;&gt;  finally <a class="link-secondary" href="{{ url_for('graphing') }}">Graphing Examples</a></p>
+	
+{% endblock %}

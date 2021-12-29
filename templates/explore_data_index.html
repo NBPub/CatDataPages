@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Explore Data{% endblock %}
+
+{% block content %}
+<h1>Data Exploration Index Page</h1>
+
+<p>
+  <ol class="fs-4 fw-bold">
+	<li><a href="{{ url_for('explore_stats') }}">Stats</a></li><br />
+	<li><a href="{{ url_for('explore_words') }}">Words</a></li><br />
+	<li><a href="{{ url_for('explore_spans') }}">Spans</a></li>
+  </ol>
+  <span class="ms-2 fs-4 fw-bold text-secondary">Page not created for Binaries</span>
+</p>
+
+<hr />
+<p id="indexes" class="ms-2 text-secondary">Index Pages: 
+  <a class="link-secondary" href="{{ url_for('cat_index') }}">Cats</a> • 
+  <a class="link-secondary" href="{{ url_for('data_story_index') }}">Data Story</a> •
+  <a class="link-secondary" href="{{ url_for('graphs_index') }}#">Graphs</a>
+</p>
+{% endblock %}

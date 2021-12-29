@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Data Story{% endblock %}
+
+{% block content %}
+<h1>Data Story Index Page</h1>
+  <p><ol class="fs-4 fw-bold">
+	<li><a href="{{ url_for('background') }}">Background</a></li><br />
+	<li><a href="{{ url_for('processing') }}">Processing</a></li><br />
+	<li><a href="{{ url_for('big_table') }}">Final Data Table</a></li><br />
+	<li><a href="{{ url_for('graphing') }}">Graphing Examples</a></li><br />
+  </ol></p>
+  
+  	<hr />
+	<p id="indexes" class="ms-2 text-secondary">Index Pages: 
+	  <a class="link-secondary" href="{{ url_for('cat_index') }}">Cats</a> • 
+	  <a class="link-secondary" href="{{ url_for('graphs_index') }}">Graphs</a> •
+	  <a class="link-secondary" href="{{ url_for('explore_data_index') }}#">Explore Data</a>
+	</p>
+	
+{% endblock %}

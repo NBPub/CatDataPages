@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% block title %}Data Processing{% endblock %}
+
+{% block content %}
+  <p class="ms-2 text-secondary">
+	Page contents: 
+	<a class="link-secondary" href="#Additions">Data Additions</a> •
+	<a class="link-secondary" href="#Characterization">Data Characterization</a> •
+	<a class="link-secondary" href="#persist">Data Persistence</a> •
+	<a class="link-secondary" href="#next">Previous / Next</a>
+  </p>
+  <h2>Data Cleaning</h2>
+    <p class="fs-5 ms-1">The initial data table was investigated for redundant and missing data. Certain columns were dropped outright:</p>
+	<ul class="fs-5">
+	  <li>Mostly empty</li>
+	    <ul class="fw-bold">
+	      <li>bidability, cat_friendly, lap</li>
+		  <li>vcahospitals_url, cfa_url, vetstreet_url</li>
+		</ul>
+	  <li>Redundant or irrelevant</li>
+	    <ul>
+	      <li> <span class="fw-bold"> id </span> - simply an abbreviated name</li>
+		  <li> <span class="fw-bold"> reference_image_id </span> - ID code not applicable to me</li>
+		  <li> <span class="fw-bold"> country_codes </span> - same as country_code</li>
+		</ul>
+	</ul>
+	<p class="fs-5 ms-1"> The following is an abbreviated demonstration of data investigation. The large amount of columns would make a complete demonstration unwieldy. 
+	All presented adjustments to the <span class="fw-bold">cat</span> DataFrame were performed to generate the final data table.</p>
+	
+	<div class="bg-dark text-white m-2"><pre><code>
+	import requests as re
+	import pandas as pd
+	import numpy as np
+	from bs4 import BeautifulSoup
+	from pathlib import Path <span class="text-warning"> # for save paths</span>
+
+	cat = pd.DataFrame(re.get("https://api.thecatapi.com/v1/breeds").json())
+	
+	<span class="text-warning"># Total number of cats</span>
+	cat.shape[0] <span class="text-info">
+	> 67 </span>
+	
+	<span class="text-warning"># Number of null entries per column</span>
+	cat.isna().sum().sort_values(ascending=False) <span class="text-info">
+	> bidability            65
+	> cat_friendly          60
+	> vcahospitals_url      25
+	> cfa_url               24
+	> lap                   20
+	> vetstreet_url         17
+	> alt_names              4
+	> image                  2
+	> reference_image_id     2
+	> wikipedia_url          1 </span>
+	
+	<span class="text-warning"># Note that some entries are blank strings and are not captured by "cat.isna()" or "cat.isnull()"
+	# There are actually 24 cats without "alt_names" out of 67 total.</span>
+	cat[cat.alt_names == ''].shape[0] <span class="text-info">
+	> 20 </span>
+	
+	<span class="text-warning"># pandas has a parameter "na-filter" when reading in data that can be adjusted
+
+	# country_codes is the same as country_code</span>
+	cat[cat.country_codes != cat.country_code].shape[0] <span class="text-info">
+	> 0	 </span>
+    </code></pre></div>
+	
+	<p class="fs-5 ms-1">Contents of some columns were reformatted from dictionaries to raw values to ease future delivery. The <span class="fw-bold">weight</span> column had imperial and metric units together, which were split into individual columns. 
+	Only the image URL was taken from the <span class="fw-bold">image</span> column.</p>
+	
+	<div class="bg-dark text-white m-2"><pre><code>
+	for i,val in enumerate(cat.weight):
+		cat.loc[i,'weight_lb'] = val['imperial'] <span class="text-warning"># extract into new columns</span>
+		cat.loc[i,'weight_kg'] = val['metric']
+	cat.drop(columns = 'weight', inplace = True) <span class="text-warning"># delete original column</span>
+
+	for i,val in enumerate(cat.image):
+		if type(val) == dict and 'url' in val:
+			cat.loc[i,'image'] = val['url'] <span class="text-warning"># image source, if available</span>
+		else:
+			cat.loc[i,'image'] = '' <span class="text-warning"># leave blank, if not</span>
+	</code></pre></div>
+	<br /><hr />
+	
+  <h2 id="Additions">Data Additions</h2>
+    <h3 class="ms-5">Cat Images</h3>
+
+	<p class="fs-5 ms-1">One missing entry in <span class="fw-bold">wikipedia_url</span> was manually replaced. Then wikipedia pages were used to fill in missing images. 
+	Note that some portions of code are not generally applicable. Given the low number of entries to process, the use-cases are fairly specific.</p>
+	
+	<div class="bg-dark text-white m-2"><pre><code>
+	ind = cat[cat.wikipedia_url.isnull()].index
+	cat.loc[ind,'name'].values[0] <span class="text-info">
+	> European Burmese </span>
+	cat.loc[ind,'wikipedia_url'] = 'https://en.wikipedia.org/wiki/Burmese_cat'
+	
+	<span class="text-warning"># Find Image from wikipedia page and add to image-less cats</span>
+	for i,val in enumerate(cat[cat.image == ''].index):
+		URL = cat.loc[val,'wikipedia_url']
+		page = re.get(URL)
+		soup = BeautifulSoup(page.content, 'html.parser')
+		all_links = soup.find_all('a',class_= 'image')
+		if str([all_links[0]]).find('Question_book-new.svg') == -1: <span class="text-warning"># One page has a question book icon for the 1st image</span>
+			link_info = str(all_links[0])
+		else:
+			link_info = str(all_links[1])
+		fat = link_info[link_info.find('src='):link_info.find('srcset=')]
+
+		if fat.find('.jpg') == -1: <span class="text-warning"># Some extensions are written as .JPG instead of .jpg</span>
+			extension = '.JPG'
+		else:
+			extension = '.jpg'
+
+		base = fat[fat.find('/thumb'.lower())+6:fat.find(extension)+4]
+		image_link = f'https://upload.wikimedia.org/wikipedia/commons{base}'
+		cat.loc[val,'image'] = image_link
+	</code></pre></div>
+	
+	<h3 class="ms-5">Alpha-3 Country Codes</h3>
+	
+	<p class="fs-5 ms-1">The <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">2 character country codes</a> are not sufficient to map the data using Plotly.
+	I found a <a href="https://gist.github.com/tadast/8827699">table</a> of country names and their codes, compared the cat DataFrame's country codes with the appropriate column on the table, 
+	then converted the cat's <span class="fw-bold">country_code</span> to  <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">3 characters.</a> 
+	There were some mismatches with Iran (country name) and Singapore (alpha-2 code), hence the <span class="text-light bg-dark"> try/except/pass </span> expressions. This code could be improved.</p>
+	
+	<div class="bg-dark text-white m-2"><pre><code>
+	countries = pd.read_csv(Path(Path.cwd(),'subfolder', 'countries.csv'), index_col = 'Country') <span class="text-warning"># link to CSV file above</span>
+	
+	<span class="text-warning"># Adjust country_code from alpha-2 to 3</span>
+	for val in cat.index:
+        CC = cat.loc[val,'country_code'] <span class="text-warning"># Match alpha-2 codes, use to find alpha-3 code</span>
+        try:
+            ind = countries[countries['Alpha-2 code'] == CC].index[0]
+            cat.loc[val,'country_code'] = countries.loc[ind,'Alpha-3 code'].replace('"','').replace(' ','') <span class="text-warning"># values have junk characters</span>
+        except:
+            try: <span class="text-warning"># If alpha-2 code not matched (Singapore), try matching country name.</span>
+                country = cat.loc[val,'origin']
+                cat.loc[val,'country_code'] = countries.loc[country,'Alpha-3 code'].replace('"','').replace(' ','')
+            except:
+                pass
+            pass
+	</code></pre></div>
+	<br /><hr />
+		
+  <h2 id="Characterization">Data Characterization</h2>
+
+	<p class="fs-5 ms-1">Column types were determined to allow calls for specific types of data. Column names and indexes for each type of data were stored as separate pandas Series. Averages were calculated, where applicable.
+	Check out the <span class="fw-bold">Data Exploration</span> pages or a <span class="fw-bold">Cat Data</span> page to dig deeper into the data.</p>
+	
+	<p class="fs-5 ms-1 fw-bold">Data Types:
+	<ul class="fs-5">
+	  <li><span class="fw-bold">Spans</span> ranges such as lifespan and weight.</li>
+	  <li><span class="fw-bold">Words</span> non-numerical data such as description, origin, or associated links.</li>
+	  <li><span class="fw-bold">Binaries</span> numerical data that is either 0 or 1. The cat has it [1] or doesn't have it [0].</li>
+	  <li><span class="fw-bold">Stats</span> numerical data ranging from 1-5.</li>
+	</ul></p>
+	
+	<p class="ms-2 text-secondary">
+	  Explore Data: 
+		<a class="link-secondary" href="{{ url_for('explore_spans') }}">Spans </a> •
+		<a class="link-secondary" href="{{ url_for('explore_words') }}">Words</a> •
+		<a class="link-secondary" href="{{ url_for('explore_stats') }}">Stats</a>
+	</p>
+	
+	<div class="bg-dark text-white m-2"><pre><code>
+	<span class="text-warning"># Replace DataFrame index to cat names. Establish pandas Series for data descriptors.</span>
+	cat.set_index('name', inplace = True)
+	stats = pd.Series(dtype=int)
+	words = pd.Series(dtype=object)
+	binaries = pd.Series(dtype=int)
+	spans = pd.Series(dtype=int)
+	
+	for i,val in enumerate(cat.columns):
+		if cat[val].dtype == 'object':
+			if cat[val][0].replace(' ', '').replace('-','').isdigit(): <span class="text-warning"># Spans "<integer> - <integer>" format</span>
+				spans.loc[i] = val
+				cat.loc['CatAPI Average',val] = '' <span class="text-warning"># pre-allocate as string (object), if empty then nan value (float) will cause errors</span>
+				cat[val] = cat[val].apply(lambda span_string: span_string.replace(' ','')) <span class="text-warning"># get rid of spaces</span>
+				<span class="text-warning"># Average calculation</span>
+				lower = []
+				upper = []
+				for j, cal in enumerate(cat[val][:-1]):
+					values = cal.split('-')
+					lower.append(float(values[0]))
+					upper.append(float(values[1]))
+				lower_avg = round(np.mean(lower),1)
+				upper_avg = round(np.mean(upper),1)
+				cat.loc['CatAPI Average',val] = f'{lower_avg}-{upper_avg}'
+
+			else:
+				words.loc[i] = val <span class="text-warning"># Words, no average</span>
+
+		else:
+			if np.min(cat[val]) == 0: <span class="text-warning"># Binaries range from 0-1</span>
+				binaries.loc[i] = val
+				avg = round(np.mean(cat[val]),2)
+				cat.loc['CatAPI Average',val] = avg
+			else:
+				stats.loc[i] = val <span class="text-warning"># Stats range from 1-5</span>
+				avg = round(np.mean(cat[val]),2)
+				cat.loc['CatAPI Average',val] = avg
+	</code></pre></div>
+	<br /><hr />
+	
+  <h2 id="persist">Data Persistence</h2>
+
+	<p class="fs-5 ms-1">Pandas <a href="https://pandas.pydata.org/pandas-docs/stable/reference/io.html">enables</a> saving to many data types. As this data is simple and static*, I decided CSV, a human readable filetype, would be ideal. 
+	I also considered <a href="https://docs.python.org/3/library/pickle.html">python pickles</a> and a simple <a href="https://sqlite.org/index.html">sqlite database</a>.<br /><br />
+	The following code provides an example for saving and reading the main data table, <span class="fw-bold">cat</span>, and a series, <span class="fw-bold">stats</span>. Additionally, it shows how a random cat, and its stats may be selected. </p>	
+	
+	<div class="bg-dark text-white m-2"><pre><code>
+	<span class="text-warning"># Saving table examples</span>
+	cat.to_csv(Path(Path.cwd(),'subfolder','catdata.csv'))
+	stats.to_csv(Path(Path.cwd(),'subfolder','stats.csv'))
+	
+	<span class="text-warning"># Reading table examples, certain import parameters specified for future handling in Flask</span>
+	data = pd.read_csv(Path(Path.cwd(),'subfolder', 'catdata.csv'), index_col = 'name', na_filter = False) <span class="text-warning"># na_filter keeps empty strings as object data types, useful later</span>
+	statsCol = pd.Series(pd.read_csv(Path(Path.cwd(),'subfolder','stats.csv'), index_col = 0)['0'], name = 'Cols')
+	
+	<span class="text-warning"># Select random cat and its Stats (both loc and iloc methods applicable)</span>
+	random_cat = pd.Series(data.index[:-1]).sample().values[0] <span class="text-warning"># last entry (average) is omitted from sample</span>
+	cat_stats = data.loc[random_cat,statsCol]
+	cat_stats = data.iloc[random_cat,statsCol.index]
+	cat_stats.name <span class="text-info">
+	> 'Bambino'</span>
+	cat_stats[0:3] <span class="text-info">
+	> adaptability       5.0
+	> affection_level    5.0
+	> child_friendly     4.0</span>
+	</code></pre></div>
+	
+	<p class="fs-6 ms-3 text-secondary">*This site is designed to be able to call, clean, and save the CatAPI data whenever desired, but I haven't found the data to be updated over time. 
+	Therefore, this process is performed once, and subsequent calls are made to the CSV files. Likewise, some graphs are generated once, then saved. 
+	If I added a refresh data feature, then specific portions of the cleaning process should be made more general.</p>
+	
+	<hr />
+	<p id="next" class="ms-2 text-secondary">
+	  &lt; <a class="link-secondary" href="{{ url_for('background') }}">Background</a> previous |
+	  next <a class="link-secondary" href="{{ url_for('big_table') }}">Data Table</a> &gt;
+	</p>
+{% endblock %}

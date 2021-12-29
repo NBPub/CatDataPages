@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Graph Index{% endblock %}
+
+{% block content %}
+<h1>Graph Index Page</h1>
+	<p class="fs-5 ms-1">List of all graph images. Graphs on cat data pages are generated and saved upon loading for the first time.
+	<br />See <a class="fw-bold" href="{{ url_for('cat_index') }}"> Cat Index</a> for list of cat pages.
+	Charts on the <a href="{{ url_for('explore_data_index') }}">Explore Data</a> pages not listed
+	</p>
+
+	<p>
+	  <ul class="fs-6 fw-bold">
+		<li><a href="{{ url_for('map_cats') }}">Map Page</a></li>
+		<li><a href="{{ url_for('map_cats_raw') }}">Raw Map</a></li>
+		<br />
+		  {% for key in graphs %}
+			<li><a href="{{ url_for('static', filename=['graphs',graphs[key]]|join('/')) }}">{{ graphs[key] }}</a></li>
+			{% if key % 3 == 0 %}
+			  <br />
+			{% endif %}
+		  {% endfor %}
+	  </ul>
+	</p>
+	
+	<hr />
+	<p id="indexes" class="ms-2 text-secondary">Index Pages: 
+	  <a class="link-secondary" href="{{ url_for('cat_index') }}">Cats</a> • 
+	  <a class="link-secondary" href="{{ url_for('data_story_index') }}">Data Story</a> •
+	  <a class="link-secondary" href="{{ url_for('explore_data_index') }}#">Explore Data</a>
+	</p>
+{% endblock %}

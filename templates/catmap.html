@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}CatMap {% endblock %}
+
+{% block content %}
+  <p class="ms-2 text-secondary">
+	Page contents: 
+	<a class="link-secondary" href="#chart">Map</a> •
+	<a class="link-secondary" href="#table">Country Count Table</a>
+  </p>
+  
+  <h2>Cat Origins</h2>
+    <p class="ms-2"> Countries in from which cat's originated are shown on a global map, and are colored by the number of cats with origins there. Data is presented in a table below. <br />
+	<a class = "fw-bold" href="{{ url_for('map_cats_raw') }}">A full-page map can be viewed here.</a></p>
+	<p class="ms-2 text-secondary">Map best viewed oriented horizontally / in landscape, re-loading is required to fit a re-sized window. Panning and zooming on mobile may be wonky.</p>
+      
+    <div id='chart' class='chart'”></div>
+    <hr /><br />
+  
+  <h2>Cat Origins Table</h2>
+    <p class="ms-2", id="table"> {{ map_table | safe }} </p>
+  
+  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+	<script type='text/javascript'>
+	  var graphs = {{graphJSON | safe}};
+	  Plotly.plot('chart',graphs,{});
+	</script>
+
+{% endblock %}
+
+{% block script_additions %}
+
+{% endblock %}

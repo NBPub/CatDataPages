@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Cat Index{% endblock %}
+
+{% block nav_addendums %}
+  <div class="dropstart d-flex justify-content-end">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    Find Cat
+    </button>
+	<ul class="dropdown-menu  navbar-nav-scroll" aria-labelledby="dropdownMenuButton1">
+	  {% for name in dataW.index %}
+		<li><a class="dropdown-item" href="#{{ name }}">{{ name }}</a></li>
+	  {% endfor %}
+	</ul>
+  </div>	
+{% endblock %}
+
+{% block content %}
+	<p class="fs-2 ms-1">Explore all the cats from TheCatAPI!</p><br />
+	<p class="fs-5 ms-3">
+	Use the <span class="fw-bold">Find Cat</span> button to quickly navigate to a cat.
+	Click on a cat's image to open its data page.<br />
+	Click the <span class="fw-bolder text-success">green cat</span> to return to top of page.
+	</p>
+	<br /><hr />
+
+	<ul class="list-group" id="catList">
+	{% for key, value in dataW.iterrows() %}
+	<li  id="{{ key }}" class="list-group-item">
+	  <div class="d-flex">
+	    <div class="flex-shrink-0 w-25">
+		  <a href="{{ url_for('cat_page', cat=key) }}"><img class="img-fluid" src="{{ value['image'] }}" alt="{{ key }}"/></a>
+		</div>
+		<div class="flex-grow-1 ms-3">
+	      <h4>{{ key }}</h4>
+		  <b>{{ value['origin'] }}</b>
+	      <p>
+		    {{ value['description'] }}
+		    <a href="{{ value['wikipedia_url'] }}">wikipedia</a>
+		  </p>
+	    </div>
+	  </div>
+	</li>
+	{% endfor %}
+	</ul>
+	
+	<hr />
+	<p id="indexes" class="ms-2 text-secondary">Index Pages: 
+	  <a class="link-secondary" href="{{ url_for('graphs_index') }}">Graphs</a> • 
+	  <a class="link-secondary" href="{{ url_for('data_story_index') }}">Data Story</a> •
+	  <a class="link-secondary" href="{{ url_for('explore_data_index') }}#">Explore Data</a>
+	</p>	
+{% endblock %}
+

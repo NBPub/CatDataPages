@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Explore Cat Stats{% endblock %}
+
+{% block content %}
+  <p class="ms-2 text-secondary">
+	Page contents: 
+	<a class="link-secondary" href="#table1">Summary Table</a> •	
+	<a class="link-secondary" href="#table2">Values Table</a> •	
+	<a class="link-secondary" href="#graphs">Graphs</a> •
+	<a class="link-secondary" href="#explore">Explore Data Links</a>
+  </p>
+  
+<h2 id="dists">Cat Stats - Attribute Distributions</h2>
+<br />
+  <p class="fs-5 ms-1"> The following is a statistical summary of the "<a href="{{ url_for('processing') }}#Characterization">stats</a>", or the attributes with values ranging from 1-5.
+  Each attribute is described in the tables below, and graphs in the next section. Not all attributes are spread equally!</p>
+  <p class="fs-6 ms-1 fw-bold">Distribution descriptions for each category.</p>
+  <p id="table1">
+	{{ table | safe }}
+  </p>
+  <br />
+  <p class="fs-6 ms-1 fw-bold">Value counts for each category. The data in this table are visualized in the histograms below.</p>
+  <p id="table2">
+	{{ table2 | safe }}
+  </p>
+  <p class="fs-6 ms-1">
+    A measure of <a href="https://en.wikipedia.org/wiki/Skewness#Introduction">skew</a> is provided in the last column. 
+    It's dubbed, <span class="fw-bold">meskew</span>, and its values center about 0, and range from -1 to 1. Negative values indicate a left-skewed/tailed distribution and positive values indicate a right-skewed/tailed distribution.
+  </p>
+    
+<br /><hr />  
+  <p class="fs-5 ms-1">Histograms, with <a href="https://en.wikipedia.org/wiki/Box_plot"</a>box plots</a> overlaid on top, were generated for each attribute using Plotly*. Hover or click on a portion of the graph for more information. Use the list below to navigate to a particular attribute.</p>
+    
+  <p class="ms-2 text-secondary">
+	Graph List: 
+	{% for key in charts.keys() %}
+	  <a class="link-secondary" href="#{{ key }}">{{ key }}</a> •
+	{% endfor %}
+	<a class="link-secondary" href="#table2">Table</a>
+  </p>
+  
+  <p id="graphs" class="ms-2 text-secondary">*I haven't figured out how to best integrate Plotly charts in this site (see <a href="{{ url_for('map_cats') }}">Map</a>). If this window is resized, reload the page to format graph bounds to the window.</p>
+
+	{% for key in charts.keys() %}
+	  <hr class="mx-auto" style="width:75%"/>
+	  <div id='{{ key }}' class='chart'></div>
+	{% endfor %}
+
+<hr />
+<p id="explore" class="ms-2 text-secondary">
+  <a class="link-secondary" href="{{ url_for('explore_words') }}">Words</a> • <a class="link-secondary" href="{{ url_for('explore_spans') }}">Spans</a>
+</p>
+  
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+
+{% for key,value in charts.items() %}	
+  var graphs = {{value | safe}};
+  Plotly.plot('{{ key }}',graphs,{});
+{% endfor %}
+
+</script>
+	
+{% endblock %}
+
+
+{% block script_additions %}
+
+{% endblock %}

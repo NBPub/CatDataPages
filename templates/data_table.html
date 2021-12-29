@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Data Table{% endblock %}
+
+{% block content %}
+  <p class="ms-2 text-secondary">
+	Page contents: 
+	<a class="link-secondary" href="#BigTable">Table</a> •
+	<a class="link-secondary" href="#bottom">Table Bottom (Avg)</a> •
+	<a class="link-secondary" href="#next">Previous / Next</a>
+	
+  </p>
+  
+  <div class="dropstart d-flex justify-content-end sticky-top" style="top: 100px">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    Find Cat
+    </button>
+	<ul class="dropdown-menu  navbar-nav-scroll" aria-labelledby="dropdownMenuButton1">
+	  {% for name in names %}
+		<li><a class="dropdown-item" href="#{{ name }}">{{ name }}</a></li>
+	  {% endfor %}
+	</ul>
+  </div>	
+
+  
+<h2>Cat Data Table</h2>
+  <p class="fs-5 ms-1">The following is the final DataFrame resulting from the previously outlined steps - with some modifications for display formatting. It is the cat data source for this website. Links to cat data pages have been added to the cat names.
+  A more readable list of links to cat data pages may be viewed on the <a href="{{ url_for('cat_index') }}">Cat Index</a>.</p>
+  <p class="fs-5 ms-1">Use the <span class="fw-bold">Find Cat</span> button to navigate to a particular row.</p>
+
+  <hr />
+  
+  <p id="BigTable">
+	{{ table | safe }}
+  </p>
+<p id="bottom"></p>
+<hr />
+	<p id="next">
+	  &lt; <a class="link-secondary" href="{{ url_for('processing') }}">Processing</a> previous |
+	  next <a class="link-secondary" href="{{ url_for('graphing') }}">Graphing Examples</a> &gt;
+	</p>	  
+{% endblock %}
