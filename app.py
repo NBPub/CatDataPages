@@ -104,7 +104,7 @@ def map_cats():
     cat_locs = cat_locs.iloc[:-1,:]
     map_table, locs = cat_map_table(cat_locs)
     
-    graphJSON = cat_mapper(cat_locs)
+    graphJSON = cat_mapper(locs)
     return render_template('catmap.html', graphJSON=graphJSON, map_table=map_table)
       
 @app.route("/graphs/map-raw")
