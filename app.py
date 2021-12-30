@@ -20,7 +20,13 @@ if(Path(data_path,'catdata.csv').exists()):
 else:
     cat_data_save(data_path)
     data, statsCol, spansCol, binariesCol, wordsCol = cat_data_load(data_path)
-del data_path   
+del data_path
+
+# Create folders
+subs = ['graphs','plotly']
+for sub in subs:
+    path = Path(Path.cwd(),'static',sub)
+    Path.mkdir(path,exist_ok=True)
       
    
 @app.route("/")
