@@ -1,31 +1,35 @@
 {% extends "base.html" %}
-{% block title %}CatAPI Data Exploration{% endblock %}
+{% block title %}Cat-Data-Pages{% endblock %}
 
 {% block content %}
-  <h1>Welcome to the Cat Data Pages!</h1>
-	<p class="fs-5 m-1">This website is a project using and presenting data from <a href="https://thecatapi.com/">The CatAPI</a>, built with Python.<br /><br />
+  <h1 class="ms-2 mt-3">Welcome to the Cat Data Pages!</h1>
+	<p class="fs-5 ms-3">This website is a project using and presenting data from <a href="https://thecatapi.com/">The CatAPI</a>, built with Python.<br /><br />
 	Use the <span class="fw-bold" style="color: #362073;">Navigation Bar</span> or the buttons below to tour the site. The
 	<span class="fw-bolder text-success">green cat</span> will return to the top of a current page, and <span class="text-dark fw-bolder">Cat Data Pages</span> links back to this page.</p><br /><hr />
 
-	<div class="d-grid gap-2">
-		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('cat_index') }}" role="button">Cat Index</a>
+	<div class="d-grid gap-2 mx-5">
+		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('cat_index') }}" role="button" style="background-color: #362073;">Cat Index</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">List of all cats with pictures and descriptions. Contains links to individual cat data pages.</p>
-		<a class="btn btn-secondary fw-bold m-1 p-3" href="{{ url_for('random_cat') }}" role="button">Random Cat Data Page</a>
+		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('random_cat') }}" role="button" style="background-color: #362073;">Random Cat Data Page</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">Check out a cat!</p>
-		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('cat_compare') }}" role="button">Compare Cats</a>
+		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('cat_compare') }}" role="button" style="background-color: #362073;">Compare Cats</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">Side-by-side comparison of two cats.</p>
-		<a class="btn btn-secondary fw-bold m-1 p-3" href="{{ url_for('map_cats') }}" role="button">Cat Map</a>
+		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('map_cats') }}" role="button" style="background-color: #362073;">Cat Map</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">World map showing cat origin countries.</p>
-		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('data_story_index') }}" role="button">Data Story</a>
+		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('data_story_index') }}" role="button" style="background-color: #362073;">Data Story</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">Pages detailing the reading and processing of the data powering the site.</p>
-		<a class="btn btn-secondary fw-bold m-1 p-3" href="{{ url_for('explore_data_index') }}" role="button">Data Exploration</a>
+		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('explore_data_index') }}" role="button" style="background-color: #362073;">Data Exploration</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">Pages analyzing the various data groups as a whole.</p>
+		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('api_info') }}" role="button" style="background-color: #362073;">API Information</a>
+		<p class="fs-6 ms-3 fw-bold text-secondary">Details for accessing Cat-Data-Pages API.</p>		
 	</div>
 
 <br /><hr />	
-  <img src="{{ source }}" class="img-fluid" alt="CatAPI Image"/>
-  <p class="fs-5 m-1">Random cat, updated every 10 minutes</p>
+  <center>
+    <img src="{{ home_image }}" class="img-fluid" alt="CatAPI Image" title="Random cat, minutes remaining: {{ remaining}}"/>
+    <p class="fs-6 mb-4 text-muted fw-bold">updated {{ updated }}</p>
+  </center>
 
 <br /><hr />
-	<p class="fs-5 m-1"><a href="https://github.com/NBPub/CatDataPages">GitHub</a></p>
+	<p class="fs-5 ms-3"><a href="https://github.com/NBPub/CatDataPages">GitHub</a></p>
 {% endblock %}

@@ -12,7 +12,7 @@
   
 <h2>Cat Words - Assessing Temperament</h2>
 <br />
-  <p class="fs-5 ms-1">The "<a href="{{ url_for('processing') }}#Characterization">words</a>" data is less obvious to interpret statistically. A cursory distribution of cat origin's can be viewed on the <a href="{{ url_for('map_cats') }}">map</a>.
+  <p class="fs-5 ms-2">The "<a href="{{ url_for('processing') }}#Characterization">words</a>" data is less obvious to interpret statistically. A cursory distribution of cat origin's can be viewed on the <a href="{{ url_for('map_cats') }}">map</a>.
   This page presents information from the <span class="fw-bold">temperament</span> column of the <a href="{{ url_for('big_table') }}">data table</a>. To start, each word was extracted from each entry, and then occurences of each word were counted. 
   <br /><span class="fw-bold">46 unique words were found.</span>
   <br /><br />
@@ -29,7 +29,7 @@
   <hr />
   
 <h2 id="tables">Temperament Word Count Tables</h2>
-  <p class="fs-5 ms-1">The data on the above graph is further illustrated in the following tables. The first table lists the most common words, which populated the bars starting at 10 (Cats described by Word).
+  <p class="fs-5 ms-2">The data on the above graph is further illustrated in the following tables. The first table lists the most common words, which populated the bars starting at 10 (Cats described by Word).
   It is assumed that a particular cat does not have word(s) repeated in its temperament section, and therefore the number of times a word occurs is the number of cats it describes.
   The rarer words (one or two cats) are on the last two tables, and the cat(s) described by each word were added.<br /></p>
   
@@ -42,26 +42,26 @@
 	<a class="link-secondary" href="#scores">Cat Scores</a>
   </p>
   
-  <p class="fs-5 ms-1 fw-bold">10 or more times</p>
-  <p id="bigs"> {{ table_bigs | safe }}</p>
+  <p class="fs-5 ms-3 fw-bold">10 or more times</p>
+  <div id="bigs" style="width:95%"> {{ table_bigs | safe }}</div>
   <br />
   
-  <p class="fs-5 ms-1 fw-bold">3-9 times:</p>
-  <p id="mids"> {{ table_mids | safe }}</p>
+  <p class="fs-5 ms-3 fw-bold">3-9 times:</p>
+  <div id="mids" style="width:95%"> {{ table_mids | safe }}</div>
   <br />
   
-  <p class="fs-5 ms-1 fw-bold">Twice:</p>
-  <p id="twos"> {{ table_twos | safe }}</p>
+  <p class="fs-5 ms-3 fw-bold">Twice:</p>
+  <div id="twos" style="width:95%"> {{ table_twos | safe }}</div>
   <br />
   
-  <p class="fs-5 ms-1 fw-bold">Once:</p>
-  <p id="ones"> {{ table_ones | safe }}</p>
+  <p class="fs-5 ms-3 fw-bold">Once:</p>
+  <div id="ones" style="width:95%"> {{ table_ones | safe }}</div>
   <br />
-  <p class="fs-5 ms-1" id="scores-txt"> Lastly, a score was calculated for each cat based on the total occurences of each of its temperament words.
+  <p class="fs-5 ms-2" id="scores-txt"> Lastly, a score was calculated for each cat based on the total occurences of each of its temperament words.
   A cat with a high score has words in its temperament description that have been applied to many other cats. Scores were normalized by the number of words in a cat's temperament description, and can be used to assess more uniquely described cats. 
   More unique cats (lower normalized scores) are at the top of the table.</p>
-  <p class="fs-5 ms-1 fw-bold">Cat Scores:</p>
-  <p id="scores"> {{ table_scores | safe }}</p>
+  <p class="fs-5 ms-3 fw-bold">Cat Scores:</p>
+  <div id="scores" style="width:95%"> {{ table_scores | safe }}</div>
 
 <hr />
 <p id="explore" class="ms-2 text-secondary">

@@ -9,9 +9,9 @@
 	<a class="link-secondary" href="#datatable">Initial Data Table</a> •
 	<a class="link-secondary" href="#next">Next</a>
   </p>
-  <p class="fs-5 ms-1">The <span class="fw-bold">Data Story</span> pages will illustrate how the data was gathered, handled, and delivered to generate the content of this site</p>
+  <p class="fs-5 mx-5">The <span class="fw-bold">Data Story</span> pages will illustrate how the data was gathered, handled, and delivered to generate the content of this site</p>
   <h2>Resources</h2>
-    <p class="fs-5 ms-1">This website was created with Python using data from <a href="https://docs.thecatapi.com/">TheCatAPI</a>.
+    <p class="fs-5 ms-2">This website was created with Python using data from <a href="https://docs.thecatapi.com/">TheCatAPI</a>.
 	 The following Python packages (not all dependencies listed) and resources were used:</p>
 	<ul class="fs-5">
 	  <li><a class="fw-bold" href="https://docs.python-requests.org/en/latest/">Requests</a> was used to query <a href="https://api.thecatapi.com/v1/breeds">TheCatAPI breeds</a> to gather the initial dataset.</li>
@@ -25,7 +25,7 @@
 	</ul>
 	
 	<h3 class="ms-1" id="ty">Acknowledgements</h3>
-	  <p class="fs-5 ms-1">In addition to the documentation pages linked above, various guides, tutorials, and StackOverflow questions / answers helped me along the journey of making the website. The following list is not exhaustive:</p>
+	  <p class="fs-5 ms-2">In addition to the documentation pages linked above, various guides, tutorials, and StackOverflow questions / answers helped me along the journey of making the website. The following list is not exhaustive:</p>
 	    <ul class="fs-5">
 		  <li><a href="https://realpython.com/tutorials/tutorials">RealPython.com</a> various guides were followed, particularly for <a href="https://realpython.com/python-api/">APIs</a> and <a href="https://realpython.com/tutorials/flask/">Flask.</a></li>
 		  <li><a href="https://www.youtube.com/watch?v=mqhxxeeTbu0&list=PLzMcBGfZo4-n4vJJybUVV3Un_NFS5EOgX">Tech With Tim</a> has a great Flask tutorial YouTube playlist.</li>
@@ -38,8 +38,8 @@
 	
 	<br /><hr />
   <h2 id="fetch">Data Fetch</h2>
-    <p class="fs-5 ms-1">TheCatAPI was queried and returned data as a JSON. When read into Python, it resulted in a list of dictionaries. Pandas converted the result into a DataFrame, which can be conveniently represented as a table.</p> 
-    <div class="bg-dark text-white m-2"><pre><code>
+    <p class="fs-5 ms-2">TheCatAPI was queried and returned data as a JSON. When read into Python, it resulted in a list of dictionaries. Pandas converted the result into a DataFrame, which can be conveniently represented as a table.</p> 
+    <div class="bg-dark text-white mx-5"><pre><code>
 	import requests as re
 	import pandas as pd
 	cat = pd.DataFrame(re.get("https://api.thecatapi.com/v1/breeds").json())
@@ -47,17 +47,18 @@
 	<br /><hr />
 	
   <h2 id="datatable">Initial Data Table</h2>
-    <p class="fs-5 ms-1">A sample of the resulting table, <span class="fw-bold">cat</span>, is presented below. Notice the various data types in the columns: dictionaries, strings, floats, and integers. 
+    <p class="fs-5 ms-2">A sample of the resulting table, <span class="fw-bold">cat</span>, is presented below. Notice the various data types in the columns: dictionaries, strings, floats, and integers. 
 	Long strings are cut down for viewing purposes.</p> 
 	
-	<div class="table-responsive-sm">
-	{{
-	'<table border="1" class="table table-dark table-hover table-striped ms-2">\n  
-	<thead>\n    <tr style="text-align: right;">\n      <th></th>\n      <th>weight</th>\n      <th>id</th>\n      <th>name</th>\n      <th>cfa_url</th>\n      <th>vetstreet_url</th>\n      <th>vcahospitals_url</th>\n      <th>temperament</th>\n      <th>origin</th>\n      <th>country_codes</th>\n      <th>country_code</th>\n      <th>description</th>\n      <th>life_span</th>\n      <th>indoor</th>\n      <th>lap</th>\n      <th>alt_names</th>\n      <th>adaptability</th>\n      <th>affection_level</th>\n      <th>child_friendly</th>\n      <th>dog_friendly</th>\n      <th>energy_level</th>\n      <th>grooming</th>\n      <th>health_issues</th>\n      <th>intelligence</th>\n      <th>shedding_level</th>\n      <th>social_needs</th>\n      <th>stranger_friendly</th>\n      <th>vocalisation</th>\n      <th>experimental</th>\n      <th>hairless</th>\n      <th>natural</th>\n      <th>rare</th>\n      <th>rex</th>\n      <th>suppressed_tail</th>\n      <th>short_legs</th>\n      <th>wikipedia_url</th>\n      <th>hypoallergenic</th>\n      <th>reference_image_id</th>\n      <th>image</th>\n      <th>cat_friendly</th>\n      <th>bidability</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>{\'imperial\': \'7  -  10\', \'metric\': \'3 - 5\'}</td>\n      <td>abys</td>\n      <td>Abyssinian</td>\n      <td>http://c...</td>\n      <td>http://w...</td>\n      <td>https://...</td>\n      <td>Active, ...</td>\n      <td>Egypt</td>\n      <td>EG</td>\n      <td>EG</td>\n      <td>The Abys...</td>\n      <td>14 - 15</td>\n      <td>0</td>\n      <td>1.0</td>\n      <td></td>\n      <td>5</td>\n      <td>5</td>\n      <td>3</td>\n      <td>4</td>\n      <td>5</td>\n      <td>1</td>\n      <td>2</td>\n      <td>5</td>\n      <td>2</td>\n      <td>5</td>\n      <td>5</td>\n      <td>1</td>\n      <td>0</td>\n      <td>0</td>\n      <td>1</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>https://...</td>\n      <td>0</td>\n      <td>0XYvRd7oD</td>\n      <td>{\'id\': \'0XYvRd7oD\', \'width\': 1204, \'height\': 1445, \'url\': \'https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg\'}</td>\n      <td>NaN</td>\n      <td>NaN</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>{\'imperial\': \'7 - 10\', \'metric\': \'3 - 5\'}</td>\n      <td>aege</td>\n      <td>Aegean</td>\n      <td>NaN</td>\n      <td>http://w...</td>\n      <td>NaN</td>\n      <td>Affectio...</td>\n      <td>Greece</td>\n      <td>GR</td>\n      <td>GR</td>\n      <td>Native t...</td>\n      <td>9 - 12</td>\n      <td>0</td>\n      <td>NaN</td>\n      <td></td>\n      <td>5</td>\n      <td>4</td>\n      <td>4</td>\n      <td>4</td>\n      <td>3</td>\n      <td>3</td>\n      <td>1</td>\n      <td>3</td>\n      <td>3</td>\n      <td>4</td>\n      <td>4</td>\n      <td>3</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>0</td>\n      <td>https://...</td>\n      <td>0</td>\n      <td>ozEvzdVM-</td>\n      <td>{\'id\': \'ozEvzdVM-\', \'width\': 1200, \'height\': 800, \'url\': \'https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg\'}</td>\n      <td>NaN</td>\n      <td>NaN</td>\n    </tr>\n  </tbody>\n</table>'
-	| safe }}
+	<div class="table-responsive">
+	  <table border="1" class="table table-dark table-hover table-striped ms-2">  
+	    <thead>    <tr style="text-align: right;">      <th></th>      <th>weight</th>      <th>id</th>      <th>name</th>      <th>cfa_url</th>      <th>vetstreet_url</th>      <th>vcahospitals_url</th>      <th>temperament</th>      <th>origin</th>      <th>country_codes</th>      <th>country_code</th>      <th>description</th>      <th>life_span</th>      <th>indoor</th>      <th>lap</th>      <th>alt_names</th>      <th>adaptability</th>      <th>affection_level</th>      <th>child_friendly</th>      <th>dog_friendly</th>      <th>energy_level</th>      <th>grooming</th>      <th>health_issues</th>      <th>intelligence</th>      <th>shedding_level</th>      <th>social_needs</th>      <th>stranger_friendly</th>      <th>vocalisation</th>      <th>experimental</th>      <th>hairless</th>      <th>natural</th>      <th>rare</th>      <th>rex</th>      <th>suppressed_tail</th>      <th>short_legs</th>      <th>wikipedia_url</th>      <th>hypoallergenic</th>      <th>reference_image_id</th>      <th>image</th>      <th>cat_friendly</th>      <th>bidability</th>    </tr>  </thead>  
+		<tbody>    <tr>      <th>0</th>      <td>{\'imperial\': \'7  -  10\', \'metric\': \'3 - 5\'}</td>      <td>abys</td>      <td>Abyssinian</td>      <td>http://c...</td>      <td>http://w...</td>      <td>https://...</td>      <td>Active, ...</td>      <td>Egypt</td>      <td>EG</td>      <td>EG</td>      <td>The Abys...</td>      <td>14 - 15</td>      <td>0</td>      <td>1.0</td>      <td></td>      <td>5</td>      <td>5</td>      <td>3</td>      <td>4</td>      <td>5</td>      <td>1</td>      <td>2</td>      <td>5</td>      <td>2</td>      <td>5</td>      <td>5</td>      <td>1</td>      <td>0</td>      <td>0</td>      <td>1</td>      <td>0</td>      <td>0</td>      <td>0</td>      <td>0</td>      <td>https://...</td>      <td>0</td>      <td>0XYvRd7oD</td>      <td>{\'id\': \'0XYvRd7oD\', \'width\': 1204, \'height\': 1445, \'url\': \'https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg\'}</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1</th>      <td>{\'imperial\': \'7 - 10\', \'metric\': \'3 - 5\'}</td>      <td>aege</td>      <td>Aegean</td>      <td>NaN</td>      <td>http://w...</td>      <td>NaN</td>      <td>Affectio...</td>      <td>Greece</td>      <td>GR</td>      <td>GR</td>      <td>Native t...</td>      <td>9 - 12</td>      <td>0</td>      <td>NaN</td>      <td></td>      <td>5</td>      <td>4</td>      <td>4</td>      <td>4</td>      <td>3</td>      <td>3</td>      <td>1</td>      <td>3</td>      <td>3</td>      <td>4</td>      <td>4</td>      <td>3</td>      <td>0</td>      <td>0</td>      <td>0</td>      <td>0</td>      <td>0</td>      <td>0</td>      <td>0</td>      <td>https://...</td>      <td>0</td>      <td>ozEvzdVM-</td>      <td>{\'id\': \'ozEvzdVM-\', \'width\': 1200, \'height\': 800, \'url\': \'https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg\'}</td>      <td>NaN</td>      <td>NaN</td>    </tr>  </tbody>
+	  </table>	
 	</div>
+	
 	<br />
-	<p class="fs-5 ms-1">Continue to the next page to see how the data was processed. Compare the table above to the <a href="{{ url_for('big_table') }}">data table</a> after processing.</p>
+	<p class="fs-5 ms-2">Continue to the next page to see how the data was processed. Compare the table above to the <a href="{{ url_for('big_table') }}">data table</a> after processing.</p>
 	<hr />
 	
 	<p id="next" class="ms-2 text-secondary"> &gt;  next <a class="link-secondary" href="{{ url_for('processing') }}">Processing</a></p>

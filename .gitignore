@@ -1,2 +1,10 @@
+venv 
 __pycache__ 
-venv
+.git
+data/binaries.csv
+data/catdata.csv
+data/spans.csv
+data/stats.csv
+data/words.csv
+static/graphs
+static/plotly

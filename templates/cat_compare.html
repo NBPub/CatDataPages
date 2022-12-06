@@ -23,26 +23,22 @@
   {% if image_one %}
     <div class="container" id="result">
 	  <div class="row align-items-start">
-	    <div class="col">
+	    <div class="col me-5">
 	      <a class="fs-4 ms-1 fw-bold" href="{{ url_for('cat_page', cat=cat_one) }}">{{ cat_one }}</a>
 		  <image class="img-fluid" src="{{ image_one }}" alt="{{ cat_one }}">
 		</div>
-		<div class="col">
-		  <p class="fs-4 ms-5 fw-bold"> vs
-		</div>
-		<div class="col">
+		<div class="col ms-5">
 		  <a class="fs-4 ms-1 fw-bold" href="{{ url_for('cat_page', cat=cat_two) }}"> {{ cat_two }}</a>
 		  <image class="img-fluid" src="{{ image_two }}" alt="{{ cat_two }}">
 		</div>
 	  </div>
 	</div>
 	
-	<div class="table-responsive">
-	  <p id="words" class="ms-3 fw-5 fw-bold">Descriptions: {{ compW | safe }}</p>
-	</div><hr />
-	<p id="spans" class="ms-3 fw-5 fw-bold">Spans: {{ compSpan | safe }}</p><hr />
-	<p id="stats" class="ms-3 fw-5 fw-bold">Stats: {{ compStat | safe }}</p><hr />
-	<p id="binary" class="ms-3 fw-5 fw-bold">Binaries: {{ compBinary | safe }}</p><hr /><br />
+	<p id="words" class="ms-3 fw-5 fw-bold">Descriptions: <div style="width:95%">{{ compW | safe }}</div></p>
+<hr />
+	<p id="spans" class="ms-3 fw-5 fw-bold">Spans: <div style="width:95%">{{ compSpan | safe }}</div></p><hr />
+	<p id="stats" class="ms-3 fw-5 fw-bold">Stats: <div style="width:95%">{{ compStat | safe }}</div></p><hr />
+	<p id="binary" class="ms-3 fw-5 fw-bold">Binaries: <div style="width:95%">{{ compBinary | safe }}</div></p><hr /><br />
 	
 	<p class="ms-2 fs-5 fw-bold">Choose other cats to compare</p>
 	

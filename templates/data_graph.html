@@ -10,13 +10,14 @@
   </p>
   
   <h1> Graphing Examples </h1>
-    <p class="fs-5 ms-1">The data table was used to generate graphs on the <span class="fw-bold">Cat Data</span> pages, the <span class="fw-bold">Data Exploration</span> pages, and the <span class="fw-bold">Cat Map</span>. Two examples, using each of the two graphing packages are shown below.
-	See the project's <a href="https://github.com/NBPub/CatDataPages">GitHub</a> page for other graphs' codes.</p>
-    <br /><hr />
+    <p class="fs-5 ms-2">The data table was used to generate graphs on the <span class="fw-bold">Cat Data</span> pages, the <span class="fw-bold">Data Exploration</span> pages, and the <span class="fw-bold">Cat Map</span>. Two examples, using each of the two graphing packages are shown below.
+	See the project's <a href="https://github.com/NBPub/CatDataPages">GitHub</a> page for other graphs' codes.
+	<a class="ms-5" href="{{ url_for('graphs_index') }}">Graph Index</a></p>
+	<br /><hr />
   
   <h2 id="spider">Matplotlib - Radar / Spider Plot of Cat Stats</h2>
-    <p class="fs-5 ms-1">The following example generates a figure, as seen on the cat data pages. A random cat is generated as shown on the <a href="{{ url_for('processing') }}#persist">previous page</a>, and its stats as well as the average stats were selected and used for graphing.</p>
-    <div class="bg-dark text-white m-2"><pre><code>
+    <p class="fs-5 ms-2">The following example generates a figure, as seen on the cat data pages. A random cat is generated as shown on the <a href="{{ url_for('processing') }}#persist">previous page</a>, and its stats as well as the average stats were selected and used for graphing.</p>
+    <div class="bg-dark text-white mx-5"><pre><code>
 	from pathlib import Path
 	import pandas as pd
 	import numpy as np
@@ -70,11 +71,11 @@
 
 
   <h2 id="globe">Plotly - Map of Cat Origins</h2>
-    <p class="fs-5 ms-1">Plotly can generate interactive plots in HTML. The cats' origins were used to populate a <a href="{{ url_for('map_cats') }}">world map</a> that shows how many cats, and which ones, originate from a country.
+    <p class="fs-5 ms-2">Plotly can generate interactive plots in HTML. The cats' origins were used to populate a <a href="{{ url_for('map_cats') }}">world map</a> that shows how many cats, and which ones, originate from a country.
 	See <a href="https://plotly.com/python/choropleth-maps/#using-builtin-country-and-state-geometries"> Choropleth Maps</a> and <a href="https://plotly.com/python/scatter-plots-on-maps/">Scatter Plots on Maps</a> for more information. 
 	I haven't figured out how to best integrate these plots into the website. I may try to improve the Plotly pages in future updates to the site.</p>
 	
-    <div class="bg-dark text-white m-2"><pre><code>
+    <div class="bg-dark text-white mx-5"><pre><code>
 	from pathlib import Path
 	import pandas as pd
 	import plotly.express as px

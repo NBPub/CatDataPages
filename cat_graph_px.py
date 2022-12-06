@@ -12,11 +12,16 @@ def cat_mapper(locs):
         with open(path, 'r') as reader:
             graphJSON = reader.read()
         del reader
-        return graphJSON
-      
-    locs['origin'] = [f'{locs.loc[val,"origin"]} ({locs.loc[val,"# cats"]})' for val in locs.index] # Add cat number to entries for legend
+        return graphJSON    
     
-    fig = px.choropleth(locs, locations="code", color="# cats", hover_name="origin",
+    # Gather country cat count, list of cats
+    mapdata = pd.DataFrame(locs.value_counts()).reset_index()
+    mapdata.columns = (['origin','code','# cats'])
+    mapdata['cats'] = [', '.join(locs[locs.origin == val].index) for val in mapdata['origin']] # Get cats belonging to country
+    mapdata['origin'] = [f'{mapdata.loc[val,"origin"]} ({mapdata.loc[val,"# cats"]})' for val in mapdata.index] # Add (# cats) for display      
+    mapdata.set_index('origin', inplace=True)  
+    
+    fig = px.choropleth(mapdata, locations="code", color="# cats", hover_name=mapdata.index,
                         hover_data = {'code': False, '# cats': False, 'cats': True,},
                         color_continuous_scale=px.colors.sequential.Emrld)
 
@@ -27,7 +32,7 @@ def cat_mapper(locs):
     
     graphJSON = json.dumps(fig, cls=pu.PlotlyJSONEncoder)
     with open(path, 'w') as writer:
-        print(graphJSON, file=writer)
+        writer.write(graphJSON)
     del writer
     
     return graphJSON

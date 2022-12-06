@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}API Information{% endblock %}
+
+{% block content %}
+  <p class="ms-2 text-secondary">
+	Page contents: 
+	<a class="link-secondary" href="#Image">Cat Image</a> •
+	<a class="link-secondary" href="#Names">Cat Names</a> •
+	<a class="link-secondary" href="#Info">Cat Information</a> •
+	<a class="link-secondary" href="#Stats">Cat Stats</a> •
+	<a class="link-secondary" href="#Graphs">Cat Graphs</a> • 
+	<a class="link-secondary" href="#indexes">Index Links</a>
+  </p>
+  
+  <h1 class="ms-1 mb-3">API Information</h1>
+    <p class="fs-5 ms-3 mt-3">Cat-Data-Pages provides a convenient API endpoint accessing for cat data and images.
+	<br>
+	All data is returned in <a href="https://www.json.org/">JSON</a> format, within a single layer (no nesting). Note particular datatypes as shown in the examples below.</p>
+  
+  
+  <h2 id="Image" class="ms-1 mt-5">Cat Image
+	<a class="ms-5 fs-5" href="{{ url_for('api_v1_basic', req='image') }}" target="_blank">{{ url_for('api_v1_basic', req='image', _external=True) }}</a>
+  </h2>
+	<p class="fs-5 ms-3 mt-3"> Returns URL for a random cat image from 
+	  <a href="https://developers.thecatapi.com/">TheCatAPI</a>, as shown on the 
+	  <a href="{{ url_for('home') }}">home page</a>, updated every 10 minutes. Also provides "minutes_left" to advise wait periods before future requests.
+	</p>
+	<div class="row"><div class="col-9"><div class="bg-dark text-white mx-5"><pre><code><span class="text-info">	
+{
+  "URL": "{{ home_image }}",
+  "minutes_left": "08:42"<em class="text-warning"> # example, not current value</em>
+}
+	</span></code></pre></div></div>
+	<div class="col-3 align-self-center">
+	  <img src="{{ home_image }}"  alt="random cat image" class="img-fluid align-middle" title="random cat"/>
+	</div></div>	
+<br /><hr />
+	
+  <h2 id="Names" class="ms-1">Cat Names
+	<a class="ms-5 fs-5" href="{{ url_for('api_v1_basic', req='names') }}" target="_blank">{{ url_for('api_v1_basic', req='names', _external=True) }}</a>
+  </h2>
+	<p class="fs-5 ms-3 mt-3"> Returns list of cat names, and their format for subsequent requests.</p>
+	<div class="bg-dark text-white mx-5"><pre><code><span class="text-info">	
+{
+  "Abyssinian": "abyssinian",
+  "Aegean": "aegean",
+  "American Bobtail": "american_bobtail",
+  <span class="text-warning"> # etc . . .</span>
+  "Turkish Van": "turkish_van",
+  "York Chocolate": "york_chocolate"
+}
+	</span></code></pre></div>
+<br /><hr />	
+
+  <h2 id="Info" class="ms-1">Cat Information
+	<a class="ms-5 fs-5" href="{{ url_for('api_v1_data',cat='random', req='info') }}" target="_blank">{{ url_for('api_v1_data', cat='random', req='info', _external=True) }}</a>
+	<span class="fs-6 text-muted ms-5">example link for random cat</span>
+  </h2>
+	<p class="fs-5 ms-3 mt-3"> Returns information about a particular cat, or a random cat. Specify 'random' or a cat name, see list <a href="#Names">above</a>.</p>
+	<div class="row"><div class="col-9"><div class="bg-dark text-white mx-5"><pre><code>
+	<span class="text-warning"> {{ url_for('api_v1_data',cat='american_bobtail', req='info', _external=True) }}</span>
+	<span class="text-info">	
+{
+  "Cat": "American Bobtail",
+  "Data": "information",
+  "Page": "{{ url_for('cat_page', cat='American Bobtail', _external=True) }}",
+  "alt names": [
+    ""
+  ],
+  "description": "American Bobtails are loving and incredibly intelligent cats possessing a distinctive wild appearance. They are extremely interactive cats that bond with their human family with great devotion.",
+  "image": "https://cdn2.thecatapi.com/images/hBXicehMA.jpg",
+  "origin": "United States (USA)",
+  "temperament": "Intelligent, Interactive, Lively, Playful, Sensitive",
+  "traits": [
+    "suppressed tail"
+  ],
+  "wikipedia": "https://en.wikipedia.org/wiki/American_Bobtail"
+}
+	</span></code></pre></div></div>
+	<div class="col-3 align-self-center">
+	  <img src="https://cdn2.thecatapi.com/images/hBXicehMA.jpg"  alt="American Bobtail image" class="img-fluid align-middle" title="American Bobtail image"/>
+	</div></div>
+<br /><hr />
+  
+  <h2 id="Stats" class="ms-1">Cat Stats
+	<a class="ms-5 fs-5" href="{{ url_for('api_v1_data',cat='random', req='stats') }}" target="_blank">{{ url_for('api_v1_data', cat='random', req='stats', _external=True) }}</a>
+	<span class="fs-6 text-muted ms-5">example link for random cat</span>
+  </h2>
+	<p class="fs-5 ms-3 mt-3"> Returns statistics about a particular cat, or a random cat. Specify 'random' or a cat name, see list <a href="#Names">above</a>.</p>
+	<div class="bg-dark text-white mx-5"><pre><code>
+	<span class="text-warning"> {{ url_for('api_v1_data',cat='american_bobtail', req='stats', _external=True) }}</span>
+	<span class="text-info">	
+{
+  "Cat": "American Bobtail",
+  "Data": "stats",
+  "Page": "{{ url_for('cat_page', cat='American Bobtail', _external=True) }}",
+  "adaptability": 5.0,
+  "affection_level": 5.0,
+  "child_friendly": 4.0,
+  <span class="text-warning"> # etc . . .</span>
+  "weight_kg": "3-7",
+  "weight_lb": "7-16"
+}
+	</span></code></pre></div>
+<br /><hr />
+
+  <h2 id="Graphs" class="ms-1">Cat Graphs
+	<a class="ms-5 fs-5" href="{{ url_for('api_v1_data',cat='random', req='graph') }}" target="_blank">{{ url_for('api_v1_data', cat='random', req='graph', _external=True) }}</a>
+	<span class="fs-6 text-muted ms-5">example link for random cat</span>
+  </h2>
+	<p class="fs-5 ms-3 mt-3"> Returns links to graph images, as shown on a particular cat's <a href="{{ url_for('random_cat') }}">data page</a>, or for a random cat. 
+	Specify 'random' or a name as shown in <a href="#Names">Cat Names</a>.</p>
+
+<div class="row"><div class="col-9">
+	<div class="bg-dark text-white mx-5"><pre><code>
+	<span class="text-warning"> {{ url_for('api_v1_data',cat='american_bobtail', req='graph', _external=True) }}</span>
+	<span class="text-info">	
+{
+  "Cat": "American Bobtail",
+  "Data": "graph URLs",
+  "Page": "{{ url_for('cat_page', cat='American Bobtail', _external=True) }}",
+  "binaries": "{{ url_for('static',filename='graphs/American Bobtail_binaries.jpg', _external=True) }}",
+  "ranges": "{{ url_for('static',filename='graphs/American Bobtail_ranges.jpg', _external=True) }}",
+  "spider": "{{ url_for('static',filename='graphs/American Bobtail_spider-stats.jpg', _external=True) }}",
+}
+	</span></code></pre></div></div>
+	<div class="col-3 align-self-center">
+	  <img src="{{ url_for('static',filename='graphs/American Bobtail_spider-stats.jpg', _external=True) }}" class="img-fluid" alt="spider graph" title="spider graph"/>
+	</div></div>
+
+<hr />
+<p id="indexes" class="ms-2 text-secondary">Index Pages: 
+  <a class="link-secondary" href="{{ url_for('cat_index') }}">Cats</a> • 
+  <a class="link-secondary" href="{{ url_for('explore_data_index') }}">Data Exploration</a> •
+  <a class="link-secondary" href="{{ url_for('data_story_index') }}">Data Story</a> •
+  <a class="link-secondary" href="{{ url_for('graphs_index') }}#">Graphs</a>
+</p>
+{% endblock %}

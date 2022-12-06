@@ -4,27 +4,31 @@ import numpy as np
 from cat_graph_px import px_words
 
 def comp_table(comp_data, statsCol, spansCol, binariesCol, wordsCol):
-
     compW = comp_data.loc[:, wordsCol]
     if 'CatAPI Average' in comp_data.index:
         compW.drop('CatAPI Average', inplace=True)
     image_one = compW.image[0]
     image_two = compW.image[1]
     compW.drop(columns = ['country_code', 'image'], inplace=True)
+    compW.columns = [val.replace('_',' ').capitalize() for val in compW.columns]
     compW = compW.transpose().to_html(justify = 'left', index_names = False, render_links = True)
-    compW = compW.replace("dataframe", "table table-dark table-striped table-hover")
+    compW = compW.replace("dataframe", "table table-dark table-striped table-hover ms-2")
     
     compSpan = comp_data.loc[:,spansCol].transpose().to_html(justify = 'left', index_names = False)
-    compStat = comp_data.loc[:,statsCol].transpose().convert_dtypes().to_html(justify = 'left', index_names = False)
-    compSpan = compSpan.replace("dataframe", "table table-dark table-striped table-hover")
-    compStat = compStat.replace("dataframe", "table table-dark table-striped table-hover")
+    compSpan = compSpan.replace("dataframe", "table table-dark table-striped table-hover ms-2")
+    
+    compStat = comp_data.loc[:,statsCol]
+    compStat.columns = [val.replace('_',' ').title() for val in compStat.columns]
+    compStat = compStat.transpose().convert_dtypes().to_html(justify = 'left', index_names = False)
+    compStat = compStat.replace("dataframe", "table table-dark table-striped table-hover ms-2")
     
     compBinary = comp_data.loc[:,binariesCol].transpose() 
+    compBinary.index = [val.replace('_',' ').title() for val in compBinary.index]
     if 'CatAPI Average' in compBinary.columns:
         compBinary['CatAPI Average'] = compBinary['CatAPI Average'].apply(lambda val: f'{int(val*100)}%')
 
     compBinary = compBinary.to_html(justify = 'left', index_names = False)
-    compBinary = compBinary.replace("dataframe", "table table-dark table-striped table-hover")
+    compBinary = compBinary.replace("dataframe", "table table-dark table-striped table-hover ms-2")
     compBinary = compBinary.replace('0.0','&#10060;')
     compBinary = compBinary.replace('1.0','&#10004;')
     
@@ -40,7 +44,7 @@ def cat_map_table(cat_locs):
     map_table = locs.set_index('origin')
     map_table.drop(columns = ['code'], inplace=True)
     map_table = map_table.to_html(justify = 'left', index_names = False)
-    map_table = map_table.replace("dataframe", "table table-dark table-striped table-hover")
+    map_table = map_table.replace("dataframe", "table table-dark table-striped table-hover ms-2")
     return map_table, locs  
 
 def cat_page_words(catW):
@@ -55,10 +59,11 @@ def cat_page_words(catW):
 def cat_page_table(cat_table, binariesCol, avg_name, cat):
     cat_table.loc[binariesCol,cat] = cat_table.loc[binariesCol,cat] -1
     cat_table.loc[binariesCol,avg_name] = cat_table.loc[binariesCol,avg_name].apply(lambda val: f'{int(val*100)}%')
+    cat_table.index = [val.replace('_',' ').title() for val in cat_table.index]
     cat_table = cat_table.to_html(justify='left', index_names=False)
     
     # Add bootstrap
-    cat_table = cat_table.replace("dataframe", "table table-dark table-striped table-hover") 
+    cat_table = cat_table.replace("dataframe", "table table-dark table-striped table-hover ms-2") 
     cat_table = cat_table.replace('<thead>','<thead class="sticky-top" style="top: 55px">') # sticky column labels to scroll below navbar
     # Manually adjust values for formatting
     cat_table = cat_table.replace('-1.0','&#10060;')
@@ -68,7 +73,7 @@ def cat_page_table(cat_table, binariesCol, avg_name, cat):
 
 def datas_tables(table):  
     table = table.to_html(justify='left', index_names=False, show_dimensions=True, render_links=True)
-    table = table.replace("dataframe", "table table-dark table-striped table-hover") # bootstrap styling
+    table = table.replace("dataframe", "table table-dark table-striped table-hover ms-2") # bootstrap styling
     table = table.replace('<thead>','<thead class="sticky-top" style="top: 55px">') # sticky column labels to scroll below navbar
     
     # Fill in links for index
@@ -105,9 +110,9 @@ def stats_tables(stats):
     meskew = dict(round(table2.meskew,1))
     
     table = table.to_html(justify='left', index_names=False, show_dimensions=True)
-    table = table.replace("dataframe", "table table-dark table-striped table-hover")
+    table = table.replace("dataframe", "table table-dark table-striped table-hover ms-2")
     table2 = table2.to_html(justify='left', index_names=False, show_dimensions=True)
-    table2 = table2.replace("dataframe", "table table-dark table-striped table-hover")    
+    table2 = table2.replace("dataframe", "table table-dark table-striped table-hover ms-2")    
     return table, table2, meskew
     
 def spans_tables(spans):
@@ -120,7 +125,6 @@ def spans_tables(spans):
     for val in spans.columns:
         choices[val] = spans[val].unique().shape[0]
     return spans, choices
-
 
 def words_tables(dataW):
     # CONSIDER SAVING THIS ONE
@@ -170,18 +174,18 @@ def words_tables(dataW):
     
     # to html and add bootstrap classes for CSS
     table_ones = table_ones.to_html(justify='center', index_names=False, show_dimensions=True)
-    table_ones = table_ones.replace("dataframe", "table table-dark table-striped table-hover")
+    table_ones = table_ones.replace("dataframe", "table table-dark table-striped table-hover ms-2")
     
     table_twos = table_twos.to_html(justify='center', index_names=False, show_dimensions=True)
-    table_twos = table_twos.replace("dataframe", "table table-dark table-striped table-hover")
+    table_twos = table_twos.replace("dataframe", "table table-dark table-striped table-hover ms-2")
     
     table_mids = table_mids.to_html(justify='center', index_names=False, show_dimensions=True)
-    table_mids = table_mids.replace("dataframe", "table table-dark table-striped table-hover")
+    table_mids = table_mids.replace("dataframe", "table table-dark table-striped table-hover ms-2")
     
     table_bigs = table_bigs.to_html(justify='center', index_names=False, show_dimensions=True) 
-    table_bigs = table_bigs.replace("dataframe", "table table-dark table-striped table-hover")
+    table_bigs = table_bigs.replace("dataframe", "table table-dark table-striped table-hover ms-2")
 
     table_scores = table_scores.sort_values(by='score/words').to_html(justify='center', index_names=False)
-    table_scores = table_scores.replace("dataframe", "table table-dark table-striped table-hover")
+    table_scores = table_scores.replace("dataframe", "table table-dark table-striped table-hover ms-2")
                 
     return chart, table_ones, table_twos, table_mids, table_bigs, table_scores

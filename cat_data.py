@@ -3,29 +3,24 @@ import requests as re
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
-import pickle as pickle
+import json
 
-def image_roto():
-    path = Path(Path.cwd(),'static','home_image.pkl')
-    
-    if path.exists():
-        with open(path, 'rb') as reader:
-            home_image = pickle.load(reader)
-        del reader
-        stamp = pd.Timestamp.now() - pd.to_datetime(home_image['stamp'])
-    else:
-        stamp = pd.Timedelta('11 min')
-
-    if stamp > pd.Timedelta('10 min'):
+def image_roto(stamp, image):   
+    delta = pd.Timestamp.now() - stamp
+    if delta > pd.Timedelta('10 min') or image == None:
         image = re.get("https://api.thecatapi.com/v1/images/search").json()[0]['url']
-        home_image = {'stamp': pd.Timestamp.now(), 'source': image}
-        with open(path, 'wb') as writer:
-            pickle.dump(home_image, writer)
-        del writer
-        return image
-    else:
-        return home_image['source']
-        
+        stamp = pd.Timestamp.now()
+    return stamp, image
+
+class home_image:
+    def __init__(self, start):
+        self.stamp = pd.Timestamp.now()
+        self.image = start # None for deployment, start with cat image for DEBUG to minimize calls
+        self.update()
+    def update(self):
+        stamp, image = image_roto(self.stamp, self.image)
+        self.stamp = stamp
+        self.image = image
 
 def cat_data_save(data_path):
     cat = pd.DataFrame(re.get("https://api.thecatapi.com/v1/breeds").json()) # import data as JSON file
@@ -100,7 +95,6 @@ def cat_data_save(data_path):
     # Determine column data types:
     # Seperate by strings (words: various descriptions, ranges (spans: 'x - y', integers (stats: 0-5), and binary (binaries: 0-1) data
     # Add averages as applicable
-
     cat.set_index('name', inplace = True)
     stats = pd.Series(dtype=int)
     words = pd.Series(dtype=object)
@@ -138,8 +132,6 @@ def cat_data_save(data_path):
                 avg = round(np.mean(cat[val]),2)
                 cat.loc['CatAPI Average',val] = avg
                 
-    
-
     # Save to CSVs
     cat.to_csv(Path(data_path, 'catdata.csv'))
     stats.to_csv(Path(data_path, 'stats.csv'))

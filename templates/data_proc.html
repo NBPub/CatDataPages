@@ -10,7 +10,7 @@
 	<a class="link-secondary" href="#next">Previous / Next</a>
   </p>
   <h2>Data Cleaning</h2>
-    <p class="fs-5 ms-1">The initial data table was investigated for redundant and missing data. Certain columns were dropped outright:</p>
+    <p class="fs-5 ms-2">The initial data table was investigated for redundant and missing data. Certain columns were dropped outright:</p>
 	<ul class="fs-5">
 	  <li>Mostly empty</li>
 	    <ul class="fw-bold">
@@ -24,10 +24,10 @@
 		  <li> <span class="fw-bold"> country_codes </span> - same as country_code</li>
 		</ul>
 	</ul>
-	<p class="fs-5 ms-1"> The following is an abbreviated demonstration of data investigation. The large amount of columns would make a complete demonstration unwieldy. 
+	<p class="fs-5 ms-2"> The following is an abbreviated demonstration of data investigation. The large amount of columns would make a complete demonstration unwieldy. 
 	All presented adjustments to the <span class="fw-bold">cat</span> DataFrame were performed to generate the final data table.</p>
 	
-	<div class="bg-dark text-white m-2"><pre><code>
+	<div class="bg-dark text-white mx-5"><pre><code>
 	import requests as re
 	import pandas as pd
 	import numpy as np
@@ -65,10 +65,10 @@
 	> 0	 </span>
     </code></pre></div>
 	
-	<p class="fs-5 ms-1">Contents of some columns were reformatted from dictionaries to raw values to ease future delivery. The <span class="fw-bold">weight</span> column had imperial and metric units together, which were split into individual columns. 
+	<p class="fs-5 ms-2">Contents of some columns were reformatted from dictionaries to raw values to ease future delivery. The <span class="fw-bold">weight</span> column had imperial and metric units together, which were split into individual columns. 
 	Only the image URL was taken from the <span class="fw-bold">image</span> column.</p>
 	
-	<div class="bg-dark text-white m-2"><pre><code>
+	<div class="bg-dark text-white mx-5"><pre><code>
 	for i,val in enumerate(cat.weight):
 		cat.loc[i,'weight_lb'] = val['imperial'] <span class="text-warning"># extract into new columns</span>
 		cat.loc[i,'weight_kg'] = val['metric']
@@ -85,10 +85,10 @@
   <h2 id="Additions">Data Additions</h2>
     <h3 class="ms-5">Cat Images</h3>
 
-	<p class="fs-5 ms-1">One missing entry in <span class="fw-bold">wikipedia_url</span> was manually replaced. Then wikipedia pages were used to fill in missing images. 
+	<p class="fs-5 ms-2">One missing entry in <span class="fw-bold">wikipedia_url</span> was manually replaced. Then wikipedia pages were used to fill in missing images. 
 	Note that some portions of code are not generally applicable. Given the low number of entries to process, the use-cases are fairly specific.</p>
 	
-	<div class="bg-dark text-white m-2"><pre><code>
+	<div class="bg-dark text-white mx-5"><pre><code>
 	ind = cat[cat.wikipedia_url.isnull()].index
 	cat.loc[ind,'name'].values[0] <span class="text-info">
 	> European Burmese </span>
@@ -118,12 +118,12 @@
 	
 	<h3 class="ms-5">Alpha-3 Country Codes</h3>
 	
-	<p class="fs-5 ms-1">The <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">2 character country codes</a> are not sufficient to map the data using Plotly.
+	<p class="fs-5 ms-2">The <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">2 character country codes</a> are not sufficient to map the data using Plotly.
 	I found a <a href="https://gist.github.com/tadast/8827699">table</a> of country names and their codes, compared the cat DataFrame's country codes with the appropriate column on the table, 
 	then converted the cat's <span class="fw-bold">country_code</span> to  <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">3 characters.</a> 
 	There were some mismatches with Iran (country name) and Singapore (alpha-2 code), hence the <span class="text-light bg-dark"> try/except/pass </span> expressions. This code could be improved.</p>
 	
-	<div class="bg-dark text-white m-2"><pre><code>
+	<div class="bg-dark text-white mx-5"><pre><code>
 	countries = pd.read_csv(Path(Path.cwd(),'subfolder', 'countries.csv'), index_col = 'Country') <span class="text-warning"># link to CSV file above</span>
 	
 	<span class="text-warning"># Adjust country_code from alpha-2 to 3</span>
@@ -144,25 +144,25 @@
 		
   <h2 id="Characterization">Data Characterization</h2>
 
-	<p class="fs-5 ms-1">Column types were determined to allow calls for specific types of data. Column names and indexes for each type of data were stored as separate pandas Series. Averages were calculated, where applicable.
+	<p class="fs-5 ms-2">Column types were determined to allow calls for specific types of data. Column names and indexes for each type of data were stored as separate pandas Series. Averages were calculated, where applicable.
 	Check out the <span class="fw-bold">Data Exploration</span> pages or a <span class="fw-bold">Cat Data</span> page to dig deeper into the data.</p>
 	
-	<p class="fs-5 ms-1 fw-bold">Data Types:
+	<span class="fs-5 ms-4 fw-bold">Data Types:</span>
 	<ul class="fs-5">
 	  <li><span class="fw-bold">Spans</span> ranges such as lifespan and weight.</li>
 	  <li><span class="fw-bold">Words</span> non-numerical data such as description, origin, or associated links.</li>
 	  <li><span class="fw-bold">Binaries</span> numerical data that is either 0 or 1. The cat has it [1] or doesn't have it [0].</li>
 	  <li><span class="fw-bold">Stats</span> numerical data ranging from 1-5.</li>
-	</ul></p>
+	</ul>
 	
-	<p class="ms-2 text-secondary">
+	<p class="ms-5 text-secondary">
 	  Explore Data: 
 		<a class="link-secondary" href="{{ url_for('explore_spans') }}">Spans </a> •
 		<a class="link-secondary" href="{{ url_for('explore_words') }}">Words</a> •
 		<a class="link-secondary" href="{{ url_for('explore_stats') }}">Stats</a>
 	</p>
 	
-	<div class="bg-dark text-white m-2"><pre><code>
+	<div class="bg-dark text-white mx-5"><pre><code>
 	<span class="text-warning"># Replace DataFrame index to cat names. Establish pandas Series for data descriptors.</span>
 	cat.set_index('name', inplace = True)
 	stats = pd.Series(dtype=int)
@@ -204,11 +204,13 @@
 	
   <h2 id="persist">Data Persistence</h2>
 
-	<p class="fs-5 ms-1">Pandas <a href="https://pandas.pydata.org/pandas-docs/stable/reference/io.html">enables</a> saving to many data types. As this data is simple and static*, I decided CSV, a human readable filetype, would be ideal. 
-	I also considered <a href="https://docs.python.org/3/library/pickle.html">python pickles</a> and a simple <a href="https://sqlite.org/index.html">sqlite database</a>.<br /><br />
+	<p class="fs-5 ms-2">Pandas <a href="https://pandas.pydata.org/pandas-docs/stable/reference/io.html">enables</a> saving to many data types. As this data is simple and static*, I decided CSV, a human readable filetype, would be ideal. 
+	I also considered <a href="https://docs.python.org/3/library/pickle.html">python pickles</a> and a simple <a href="https://sqlite.org/index.html">sqlite database</a>.
+	For large data sets, I've found <a href="https://parquet.apache.org/">Parquet</a> files to be a great option for Pandas DataFrames 
+	(<a href="https://github.com/NBPub/GoogleLocationUtility/blob/main/docs/Location%20Processing.md#location-processing">example usage</a>).<br /><br />	
 	The following code provides an example for saving and reading the main data table, <span class="fw-bold">cat</span>, and a series, <span class="fw-bold">stats</span>. Additionally, it shows how a random cat, and its stats may be selected. </p>	
 	
-	<div class="bg-dark text-white m-2"><pre><code>
+	<div class="bg-dark text-white mx-5"><pre><code>
 	<span class="text-warning"># Saving table examples</span>
 	cat.to_csv(Path(Path.cwd(),'subfolder','catdata.csv'))
 	stats.to_csv(Path(Path.cwd(),'subfolder','stats.csv'))
@@ -229,7 +231,7 @@
 	> child_friendly     4.0</span>
 	</code></pre></div>
 	
-	<p class="fs-6 ms-3 text-secondary">*This site is designed to be able to call, clean, and save the CatAPI data whenever desired, but I haven't found the data to be updated over time. 
+	<p class="fs-6 mx-3 text-secondary">*This site is designed to be able to call, clean, and save the CatAPI data whenever desired, but I haven't found the data to be updated over time. 
 	Therefore, this process is performed once, and subsequent calls are made to the CSV files. Likewise, some graphs are generated once, then saved. 
 	If I added a refresh data feature, then specific portions of the cleaning process should be made more general.</p>
 	
