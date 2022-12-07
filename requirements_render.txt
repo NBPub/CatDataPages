@@ -1,0 +1,10 @@
+beautifulsoup4
+Flask
+matplotlib
+pandas
+Pillow
+plotly
+python-dotenv
+requests
+Werkzeug
+Gunicorn
