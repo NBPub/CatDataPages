@@ -53,6 +53,8 @@ def random_cat(): # random cat data page
     
 @app.route("/explore/api_info/")
 def api_info(): # help page for API requests
+    if not Path(Path.cwd(),'static','graphs','American Bobtail_spider-stats.jpg').exists(): # graph displayed on page
+        _ = mpl_grapher(data, 'American Bobtail', data.index[-1], statsCol, spansCol, binariesCol)
     return render_template('api_info.html', home_image=home_image.image)
 
     

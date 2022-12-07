@@ -28,3 +28,4 @@ soupsieve==2.3.2.post1
 tenacity==8.1.0
 urllib3==1.26.13
 Werkzeug==2.2.2
+Gunicorn

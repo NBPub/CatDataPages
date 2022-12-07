@@ -2,6 +2,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 from cat_graph_px import px_words
+pd.options.mode.chained_assignment = None
 
 def comp_table(comp_data, statsCol, spansCol, binariesCol, wordsCol):
     compW = comp_data.loc[:, wordsCol]
@@ -127,7 +128,6 @@ def spans_tables(spans):
     return spans, choices
 
 def words_tables(dataW):
-    # CONSIDER SAVING THIS ONE
     words = [] # List of all the words used in Temperament
     catlist = {} # List of Temperament words for each cat,  used for ones and table_twos
     for val in dataW.index:

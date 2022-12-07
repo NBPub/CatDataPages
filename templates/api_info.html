@@ -13,17 +13,19 @@
   </p>
   
   <h1 class="ms-1 mb-3">API Information</h1>
-    <p class="fs-5 ms-3 mt-3">Cat-Data-Pages provides a convenient API endpoint accessing for cat data and images.
-	<br>
+    <p class="fs-5 ms-3 mt-3">Cat-Data-Pages provides a convenient API endpoint accessing for cat data and images. 
+	It simplifies the cat breed data from <a href="https://thecatapi.com/">The CatAPI</a>, 
+	as shown in the examples below versus the output shown in the <a href="{{ url_for('background',_anchor='datatable') }}">Initial Data Table</a>.
+	<br><br>
 	All data is returned in <a href="https://www.json.org/">JSON</a> format, within a single layer (no nesting). Note particular datatypes as shown in the examples below.</p>
-  
+<br /><hr /> 
   
   <h2 id="Image" class="ms-1 mt-5">Cat Image
 	<a class="ms-5 fs-5" href="{{ url_for('api_v1_basic', req='image') }}" target="_blank">{{ url_for('api_v1_basic', req='image', _external=True) }}</a>
   </h2>
 	<p class="fs-5 ms-3 mt-3"> Returns URL for a random cat image from 
 	  <a href="https://developers.thecatapi.com/">TheCatAPI</a>, as shown on the 
-	  <a href="{{ url_for('home') }}">home page</a>, updated every 10 minutes. Also provides "minutes_left" to advise wait periods before future requests.
+	  <a href="{{ url_for('home', _anchor='random_cat') }}">home page</a>, updated every 10 minutes. Also provides "minutes_left" to advise wait periods before future requests.
 	</p>
 	<div class="row"><div class="col-9"><div class="bg-dark text-white mx-5"><pre><code><span class="text-info">	
 {
