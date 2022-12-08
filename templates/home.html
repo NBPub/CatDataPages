@@ -8,19 +8,19 @@
 	<span class="fw-bolder text-success">green cat</span> will return to the top of a current page, and <span class="text-dark fw-bolder">Cat Data Pages</span> links back to this page.</p><br /><hr />
 
 	<div class="d-grid gap-2 mx-5">
-		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('cat_index') }}" role="button" style="background-color: #362073;">Cat Index</a>
+		<a class="btn fw-bold m-1 p-3 btn-outline-warning" href="{{ url_for('cat_index') }}" role="button" style="background-color: #362073;">Cat Index</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">List of all cats with pictures and descriptions. Contains links to individual cat data pages.</p>
-		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('random_cat') }}" role="button" style="background-color: #362073;">Random Cat Data Page</a>
+		<a class="btn fw-bold m-1 p-3 btn-outline-warning" href="{{ url_for('random_cat') }}" role="button" style="background-color: #362073;">Random Cat Data Page</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">Check out a cat!</p>
-		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('cat_compare') }}" role="button" style="background-color: #362073;">Compare Cats</a>
+		<a class="btn fw-bold m-1 p-3 btn-outline-warning" href="{{ url_for('cat_compare') }}" role="button" style="background-color: #362073;">Compare Cats</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">Side-by-side comparison of two cats.</p>
-		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('map_cats') }}" role="button" style="background-color: #362073;">Cat Map</a>
+		<a class="btn fw-bold m-1 p-3 btn-outline-warning" href="{{ url_for('map_cats') }}" role="button" style="background-color: #362073;">Cat Map</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">World map showing cat origin countries.</p>
-		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('data_story_index') }}" role="button" style="background-color: #362073;">Data Story</a>
+		<a class="btn fw-bold m-1 p-3 btn-outline-warning" href="{{ url_for('data_story_index') }}" role="button" style="background-color: #362073;">Data Story</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">Pages detailing the reading and processing of the data powering the site.</p>
-		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('explore_data_index') }}" role="button" style="background-color: #362073;">Data Exploration</a>
+		<a class="btn fw-bold m-1 p-3 btn-outline-warning" href="{{ url_for('explore_data_index') }}" role="button" style="background-color: #362073;">Data Exploration</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">Pages analyzing the various data groups as a whole.</p>
-		<a class="btn btn-dark fw-bold m-1 p-3" href="{{ url_for('api_info') }}" role="button" style="background-color: #362073;">API Information</a>
+		<a class="btn fw-bold m-1 p-3 btn-outline-warning" href="{{ url_for('api_info') }}" role="button" style="background-color: #362073;">API Information</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">We have come full circle! Details for accessing Cat-Data-Pages API.</p>		
 	</div>
 
@@ -32,11 +32,11 @@
 
 <br /><hr />
 	<footer class="fw-bold text-muted d-flex flex-wrap justify-content-between align-items center my-3">
-	  <a class="justify-content-start link-secondary mx-5" href="https://github.com/NBPub/CatDataPages">
+	  <a class="justify-content-start link-secondary mx-3" href="https://github.com/NBPub/CatDataPages">
 	    <img src="https://img.shields.io/badge/source%20code-GPLv3-blueviolet" style="height:20px"/>
 	  </a>
-	  <img src="https://img.shields.io/badge/Flask-{{ flask_version }}-blue" class="justify-content-center mx-5" style="height:20px"/>
-	  <img src="https://img.shields.io/badge/python-{{ python_version }}-success" class="justify-content-end mx-5" style="height:20px"/>
+	  <img src="https://img.shields.io/badge/Flask-{{ flask_version }}-blue" class="justify-content-center mt-1" style="height:20px"/>
+	  <img src="https://img.shields.io/badge/python-{{ python_version }}-success" class="justify-content-end mx-3 mt-1" style="height:20px"/>
 	</footer>
 {% endblock %}
 <!-- style="height:24px" !-->

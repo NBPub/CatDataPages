@@ -45,9 +45,9 @@ Make an interesting, fun page using data on cat breeds provided from [The Cat AP
 | **Cat Breed Data** | `type` *info* / *stats* / *graph* <br>for a specified or random `cat`| **api/\<cat\>/\<type\>**<br>[info](https://cat-data-pages.onrender.com/api/random/info), [stats](https://cat-data-pages.onrender.com/api/random/stats), [graphs](https://cat-data-pages.onrender.com/api/random/graph) |
 
 ### Data Demonstration
-  * [Pages](http://localhost:5000/data/story) detailing how the CatAPI data was processed and presented
+  * [Pages](https://cat-data-pages.onrender.com/data/story) detailing how the CatAPI data was processed and presented
     * Pandas, Matplotlib, and Plotly code demonstration and discussion
-  * [Pages](http://localhost:5000/explore/data) analyzing the overall data distributions
+  * [Pages](https://cat-data-pages.onrender.com/explore/data) analyzing the overall data distributions
  
 ## Deployment
 The current version of this project was built with Python 3.10, and the packages listed in [requirements.txt](requirements.txt). 
@@ -65,12 +65,13 @@ This was utilized to avoid build errors in Render.
 Name = Cat-Data-Pages
 Branch = main
 Build Command = pip install --upgrade pip setuptools wheel && pip install -r requirements_render.txt
-Start Command = gunicorn -w 4 app:app
+Start Command = gunicorn -w 2 --threads -4 app:app
 
 # environment
 PYTHON_VERSION = 3.10.9
 TZ = America/Los_Angeles
 ```
+*[gthread](https://docs.gunicorn.org/en/latest/design.html#gthread-workers) worker type used instead of [sync](https://docs.gunicorn.org/en/latest/design.html#sync-workers) due to threads > 1*
 
 ### Local Installation
 This project can be deployed locally using the default Flask Werkzeug server. 
@@ -80,6 +81,7 @@ help setting up a virtual environment, installing requirements, and options for 
 Run in debug mode:
 ```shell
 cd your-directory
+# activate virtual environment
 flask --debug run
 ```
 
@@ -94,9 +96,10 @@ This project was recently updated (Dec 2021 --> Dec 2022) as I moved it to [Rend
  * Changed method of saving random cat image
    * from txt file with link --> JSON file with dictionary --> storing dictionary in memory
    * cleaned up code a little, changed to class
+   * added try / except block in case of empty return from *thecatapi*
  * **Simple API and description page**
    * Returns URL, time remaining for random cat image
    * Returns list of cat names to facilitate other requests
    * Returns graphs/information/stats for a particular or random cat
-  * Gunicorn deployment on Render, associated requirements file
- 
+ * Gunicorn deployment on Render, associated requirements file
+   * optimizing # workers / threads . . .

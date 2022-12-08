@@ -39,7 +39,6 @@ else:
 @app.route("/home/")
 def home(): # links and random cat image
     home_image.update()
-    # print(flask_version)
     remaining = str(pd.Timedelta('10 min') - (pd.Timestamp.now() - home_image.stamp))[10:15]
     return render_template('home.html', home_image=home_image.image, remaining=remaining, flask_version=flask_version,
                            updated=home_image.stamp.round(freq='S'), python_version=python_version.split(' ')[0])

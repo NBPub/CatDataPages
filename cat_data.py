@@ -8,7 +8,10 @@ import json
 def image_roto(stamp, image):   
     delta = pd.Timestamp.now() - stamp
     if delta > pd.Timedelta('10 min') or image == None:
-        image = re.get("https://api.thecatapi.com/v1/images/search").json()[0]['url']
+        try:
+            image = re.get("https://api.thecatapi.com/v1/images/search").json()[0]['url']
+        except: # null return from thecatapi.com, could do a sleep / retry
+            pass
         stamp = pd.Timestamp.now()
     return stamp, image
 

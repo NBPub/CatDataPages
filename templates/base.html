@@ -14,10 +14,10 @@
   <body>
     <!-- Navbar, https://getbootstrap.com/docs/5.1/components/navbar/ -->	
 	<div class="sticky-top">
-	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #362073;">
+	<nav class="navbar navbar-expand-lg navbar-dark border-bottom border-dark" style="background-color: #362073;">
 	  <div class="container-fluid">
 	    <a class="navbar-brand" href="#">
-		  <img src="/static/navbar.png" alt="" width="30" height="24">
+		  <img src="/static/navbar.png" alt="cat" width="36" height="32">
 		</a>
 		<a class="navbar-brand" href="{{ url_for('home') }}">Cat Data Pages</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +57,7 @@
 			  </ul>
 			</li>
 			
-			<li class="nav-item dropdown me-5">
+			<li class="nav-item dropdown me-3">
 			  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 				Explore Data
 			  </a>
@@ -70,7 +70,7 @@
 			  </ul>
 			</li>
 			<div class="navbar-brand">
-			  <img src="/static/revcat.png" alt="" width="30" height="24">
+			  <img src="/static/revcat.png" alt="cat" width="36" height="32">
 			</div>
 			{% block nav_additions %}{% endblock %}
 		  </ul>
