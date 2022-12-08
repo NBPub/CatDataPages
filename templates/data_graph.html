@@ -15,7 +15,9 @@
 	<a class="ms-5" href="{{ url_for('graphs_index') }}">Graph Index</a></p>
 	<br /><hr />
   
-  <h2 id="spider">Matplotlib - Radar / Spider Plot of Cat Stats</h2>
+  <h2 id="spider">Matplotlib - Radar / Spider Plot of Cat Stats
+    <a class="fs-5 ms-5" href="https://github.com/NBPub/CatDataPages/blob/main/cat_graph_mpl.py#L8">code</a>
+  </h2>
     <p class="fs-5 ms-2">The following example generates a figure, as seen on the cat data pages. A random cat is generated as shown on the <a href="{{ url_for('processing') }}#persist">previous page</a>, and its stats as well as the average stats were selected and used for graphing.</p>
     <div class="bg-dark text-white mx-5"><pre><code>
 	from pathlib import Path
@@ -70,7 +72,9 @@
 	<br /><hr />
 
 
-  <h2 id="globe">Plotly - Map of Cat Origins</h2>
+  <h2 id="globe">Plotly - Map of Cat Origins
+    <a class="fs-5 ms-5" href="https://github.com/NBPub/CatDataPages/blob/main/cat_graph_px.py#L18">code</a>
+  </h2>
     <p class="fs-5 ms-2">Plotly can generate interactive plots in HTML. The cats' origins were used to populate a <a href="{{ url_for('map_cats') }}">world map</a> that shows how many cats, and which ones, originate from a country.
 	See <a href="https://plotly.com/python/choropleth-maps/#using-builtin-country-and-state-geometries"> Choropleth Maps</a> and <a href="https://plotly.com/python/scatter-plots-on-maps/">Scatter Plots on Maps</a> for more information. 
 	I haven't figured out how to best integrate these plots into the website. I may try to improve the Plotly pages in future updates to the site.</p>

@@ -1,10 +1,15 @@
 from flask import Flask
 app = Flask(__name__)
 
+import flask
+flask_version = flask.__version__
+del flask
+
 from flask import render_template, request, redirect, url_for, abort
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from sys import version as python_version
 from cat_graph_mpl import mpl_grapher
 from cat_graph_px import cat_mapper, px_stats, px_spans
 from cat_data import home_image, cat_data_save, cat_data_load, image_roto
@@ -34,9 +39,10 @@ else:
 @app.route("/home/")
 def home(): # links and random cat image
     home_image.update()
+    # print(flask_version)
     remaining = str(pd.Timedelta('10 min') - (pd.Timestamp.now() - home_image.stamp))[10:15]
-    updated = home_image.stamp.round(freq='S')
-    return render_template('home.html', home_image=home_image.image, remaining=remaining, updated=updated)
+    return render_template('home.html', home_image=home_image.image, remaining=remaining, flask_version=flask_version,
+                           updated=home_image.stamp.round(freq='S'), python_version=python_version.split(' ')[0])
 
     
 @app.route("/cats/")
