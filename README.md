@@ -50,12 +50,12 @@ Make an interesting, fun page using data on cat breeds provided from [The Cat AP
   * [Pages](http://localhost:5000/explore/data) analyzing the overall data distributions
  
 ## Deployment
-The current version of this project was built with Python 3.10, and the packages listed in [requirements.txt](/reqirements.txt). 
+The current version of this project was built with Python 3.10, and the packages listed in [requirements.txt](requirements.txt). 
 
 `pip install -r requirements.txt`
 
 ### Render
-Cat-Data-Pages can be run in earlier Python versions using the more general [requirements for render](/render_reqirements.txt), which does not list specific package versions.
+Cat-Data-Pages can be run in earlier Python versions using the more general [requirements for render](requirements_render.txt), which does not list specific package versions.
 
 `pip install -r render_requirements.txt`
 
