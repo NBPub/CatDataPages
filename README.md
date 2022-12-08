@@ -65,7 +65,7 @@ This was utilized to avoid build errors in Render.
 Name = Cat-Data-Pages
 Branch = main
 Build Command = pip install --upgrade pip setuptools wheel && pip install -r requirements_render.txt
-Start Command = gunicorn -w 2 --threads -4 app:app
+Start Command = gunicorn -w 2 --threads 4 app:app
 
 # environment
 PYTHON_VERSION = 3.10.9
