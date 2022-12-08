@@ -8,3 +8,4 @@ python-dotenv
 requests
 Werkzeug
 Gunicorn
+gunicorn[gthread]
