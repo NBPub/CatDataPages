@@ -3,6 +3,18 @@ Source code for a Flask website populated with data from the CatAPI, hosted on R
 
 >## **[Cat-Data-Pages.onrender.com](https://cat-data-pages.onrender.com/)**
 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![Jinja](https://img.shields.io/badge/jinja-white.svg?style=for-the-badge&logo=jinja&logoColor=black)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=for-the-badge&logo=Matplotlib&logoColor=black)
+![Plotly](https://img.shields.io/badge/Plotly-%233F4F75.svg?style=for-the-badge&logo=plotly&logoColor=white)
+![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=purple)
+![Gunicorn](https://img.shields.io/badge/gunicorn-%298729.svg?style=for-the-badge&logo=gunicorn&logoColor=purple)
+
+
 ## Contents
 - [Motivation](motivation)
 - [Features](#features)
@@ -56,7 +68,7 @@ Build Command = pip install --upgrade pip setuptools wheel && pip install -r req
 Start Command = gunicorn -w 4 app:app
 
 # environment
-PYTHON_VERSION = 3.10
+PYTHON_VERSION = 3.10.9
 TZ = America/Los_Angeles
 ```
 
