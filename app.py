@@ -1,5 +1,7 @@
 from flask import Flask
 app = Flask(__name__)
+import logging
+app.logger.setLevel(logging.INFO)
 
 import flask
 flask_version = flask.__version__
@@ -25,16 +27,24 @@ data_path = (Path(Path.cwd(),'data'))
 if(Path(data_path,'catdata.csv').exists()):
     data, statsCol, spansCol, binariesCol, wordsCol = cat_data_load(data_path)
 else:
+    app.logger.info('Loading Cat data . . . ')
     cat_data_save(data_path)
     data, statsCol, spansCol, binariesCol, wordsCol = cat_data_load(data_path)
 del data_path
 
-if app.debug == True:      
+if app.debug == True: 
+    app.logger.info('DEBUG MODE ENABLED')
     home_image = home_image('https://cdn2.thecatapi.com/images/OfIuuOv07.jpg') # start with image to minimize calls during development
 else:
     home_image = home_image(None)
 
+# create all MPL graphs at startup
+app.logger.info('Prepopulating MPL graphs . . . ')
+for cat in data.index[:-1]:
+    _ = mpl_grapher(data, cat, data.index[-1], statsCol, spansCol, binariesCol)
+    app.logger.info(f'\t{cat}')
 
+app.logger.info('\nApplication Ready!')
 @app.route("/")
 @app.route("/home/")
 def home(): # links and random cat image

@@ -65,13 +65,14 @@ This was utilized to avoid build errors in Render.
 Name = Cat-Data-Pages
 Branch = main
 Build Command = pip install --upgrade pip setuptools wheel && pip install -r requirements_render.txt
-Start Command = gunicorn -w 2 --threads 4 app:app
+Start Command = gunicorn -w 2 app:app
+# threads causing error, would try "gunicorn -w 2 --threads 4 app:app
 
 # environment
 PYTHON_VERSION = 3.10.9
 TZ = America/Los_Angeles
 ```
-*[gthread](https://docs.gunicorn.org/en/latest/design.html#gthread-workers) worker type used instead of [sync](https://docs.gunicorn.org/en/latest/design.html#sync-workers) due to threads > 1*
+*[gthread](https://docs.gunicorn.org/en/latest/design.html#gthread-workers) worker type used instead of [sync](https://docs.gunicorn.org/en/latest/design.html#sync-workers) if threads > 1*
 
 ### Local Installation
 This project can be deployed locally using the default Flask Werkzeug server. 
@@ -103,3 +104,8 @@ This project was recently updated (Dec 2021 --> Dec 2022) as I moved it to [Rend
    * Returns graphs/information/stats for a particular or random cat
  * Gunicorn deployment on Render, associated requirements file
    * optimizing # workers / threads . . .
+   
+ * Jan 2023
+   * updated [code](https://github.com/NBPub/CatDataPages/blob/main/cat_data.py#L45) for change in cat breed URL
+     * added note in data cleaning page, accordingly
+   * changed app to prepopulate all matplotlib graphs on startup, should provide faster responses to cat pages

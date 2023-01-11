@@ -31,8 +31,8 @@ def cat_data_save(data_path):
     # drop data
     # urls mostly empty, id is abbreviated name, ref image ID n/a
     # country_codes is repeat of country_code, others low spread or mostly empty
-    cat.drop(columns = ['id','cfa_url','vetstreet_url','vcahospitals_url','reference_image_id',\
-                        'lap','cat_friendly','bidability', 'country_codes'],\
+    cat.drop(columns = ['id','cfa_url','vetstreet_url','vcahospitals_url',
+                        'lap','cat_friendly','bidability', 'country_codes'],
              inplace = True)
 
     # Extract weight into two columns from imperial/metric dictionary entry
@@ -42,12 +42,16 @@ def cat_data_save(data_path):
         cat.loc[i,'weight_kg'] = val['metric']
     cat.drop(columns = 'weight', inplace = True)  
 
-    # Extract only the image URL from the image info dictionary
-    for i,val in enumerate(cat.image):
-        if type(val) == dict and 'url' in val:
-            cat.loc[i,'image'] = val['url']
+    # Image URL no longer provided, use ID to find IMG URL
+    image_base = 'https://cdn2.thecatapi.com/images/'
+    for i,val in enumerate(cat.reference_image_id):
+        if re.get(f'{image_base}{val}.jpg').status_code == 200:
+            cat.loc[i,'image'] = f'{val}.jpg'
+        elif re.get(f'{image_base}{val}.png').status_code == 200:
+            cat.loc[i,'image'] = f'{val}.png'
         else:
             cat.loc[i,'image'] = ''
+    cat.drop(columns = 'reference_image_id', inplace=True)
         
     # Add wikipedia link to burmese cat, only one missing
     ind = cat[cat.wikipedia_url.isnull()].index
