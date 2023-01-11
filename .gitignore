@@ -6,5 +6,4 @@ data/catdata.csv
 data/spans.csv
 data/stats.csv
 data/words.csv
-static/graphs
 static/plotly

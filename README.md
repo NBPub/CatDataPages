@@ -109,4 +109,4 @@ This project was recently updated (Dec 2021 --> Dec 2022) as I moved it to [Rend
    * updated [code](https://github.com/NBPub/CatDataPages/blob/main/cat_data.py#L45) for change in cat breed URL
      * added note in data cleaning page, accordingly
    * changed app to prepopulate all matplotlib graphs on startup, should provide faster responses to cat pages
-     * this takes ~20s per cat, or about x minutes on the [free](https://render.com/pricing#plans) plan 
+     * this takes ~20s per cat, or about 25 minutes on the [free](https://render.com/pricing#plans) plan 
