@@ -27,21 +27,21 @@
 	  <a href="https://developers.thecatapi.com/">TheCatAPI</a>, as shown on the 
 	  <a href="{{ url_for('home', _anchor='random_cat') }}">home page</a>, updated every 10 minutes. Also provides "minutes_left" to advise wait periods before future requests.
 	</p>
-	<div class="row"><div class="col-9"><div class="bg-dark text-white mx-5"><pre><code><span class="text-info">	
+	<div class="container-fluid"><div class="row"><div class="col-md-8 col-xl-6"><div class="bg-dark text-white mx-5"><pre><code><span class="text-info">	
 {
   "URL": "{{ home_image }}",
   "minutes_left": "08:42"<em class="text-warning"> # example, not current value</em>
 }
 	</span></code></pre></div></div>
-	<div class="col-3 align-self-center">
+	<div class="col-md-4 col-xl-6 align-self-center">
 	  <img src="{{ home_image }}"  alt="random cat image" class="img-fluid align-middle" title="random cat"/>
-	</div></div>	
+	</div></div></div>	
 <br /><hr />
 	
   <h2 id="Names" class="ms-1">Cat Names
 	<a class="ms-5 fs-5" href="{{ url_for('api_v1_basic', req='names') }}" target="_blank">{{ url_for('api_v1_basic', req='names', _external=True) }}</a>
   </h2>
-	<p class="fs-5 ms-3 mt-3"> Returns list of cat names, and their format for subsequent requests.</p>
+	<p class="fs-5 ms-3 mt-3"> Returns list of cat (breed) names, and their format for subsequent requests.</p>
 	<div class="bg-dark text-white mx-5"><pre><code><span class="text-info">	
 {
   "Abyssinian": "abyssinian",
@@ -59,7 +59,7 @@
 	<span class="fs-6 text-muted ms-5">example link for random cat</span>
   </h2>
 	<p class="fs-5 ms-3 mt-3"> Returns information about a particular cat, or a random cat. Specify 'random' or a cat name, see list <a href="#Names">above</a>.</p>
-	<div class="row"><div class="col-9"><div class="bg-dark text-white mx-5"><pre><code>
+	<div class="container-fluid"><div class="row"><div class="col-md-8 col-xl-7"><div class="bg-dark text-white mx-5"><pre><code>
 	<span class="text-warning"> {{ url_for('api_v1_data',cat='american_bobtail', req='info', _external=True) }}</span>
 	<span class="text-info">	
 {
@@ -79,9 +79,9 @@
   "wikipedia": "https://en.wikipedia.org/wiki/American_Bobtail"
 }
 	</span></code></pre></div></div>
-	<div class="col-3 align-self-center">
+	<div class="col-md-4 col-xl-5 align-self-center">
 	  <img src="https://cdn2.thecatapi.com/images/hBXicehMA.jpg"  alt="American Bobtail image" class="img-fluid align-middle" title="American Bobtail image"/>
-	</div></div>
+	</div></div></div>
 <br /><hr />
   
   <h2 id="Stats" class="ms-1">Cat Stats
@@ -113,7 +113,7 @@
 	<p class="fs-5 ms-3 mt-3"> Returns links to graph images, as shown on a particular cat's <a href="{{ url_for('random_cat') }}">data page</a>, or for a random cat. 
 	Specify 'random' or a name as shown in <a href="#Names">Cat Names</a>.</p>
 
-<div class="row"><div class="col-9">
+<div class="container-fluid"><div class="row"><div class="col-md-8 col-xl-6">
 	<div class="bg-dark text-white mx-5"><pre><code>
 	<span class="text-warning"> {{ url_for('api_v1_data',cat='american_bobtail', req='graph', _external=True) }}</span>
 	<span class="text-info">	
@@ -126,9 +126,9 @@
   "spider": "{{ url_for('static',filename='graphs/American Bobtail_spider-stats.jpg', _external=True) }}",
 }
 	</span></code></pre></div></div>
-	<div class="col-3 align-self-center">
+	<div class="col-md-4 col-xl-6 align-self-center">
 	  <img src="{{ url_for('static',filename='graphs/American Bobtail_spider-stats.jpg', _external=True) }}" class="img-fluid" alt="spider graph" title="spider graph"/>
-	</div></div>
+	</div></div></div>
 
 <hr />
 <p id="indexes" class="ms-2 text-secondary">Index Pages: 

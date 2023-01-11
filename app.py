@@ -25,9 +25,10 @@ Path(Path.cwd(),'static','plotly').mkdir(exist_ok=True)
 # Load in data. Request, clean, and save if it doesn't exist.
 data_path = (Path(Path.cwd(),'data'))
 if(Path(data_path,'catdata.csv').exists()):
+    app.logger.info('Loading existing data . . . ')
     data, statsCol, spansCol, binariesCol, wordsCol = cat_data_load(data_path)
 else:
-    app.logger.info('Loading Cat data . . . ')
+    app.logger.info('Processing Cat data . . . ')
     cat_data_save(data_path)
     data, statsCol, spansCol, binariesCol, wordsCol = cat_data_load(data_path)
 del data_path

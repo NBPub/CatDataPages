@@ -6,8 +6,8 @@
 	<p class="fs-5 ms-3">This website is a project using and presenting data from <a href="https://thecatapi.com/">The CatAPI</a>, built with Python.<br /><br />
 	Use the <span class="fw-bold" style="color: #362073;">Navigation Bar</span> or the buttons below to tour the site. The
 	<span class="fw-bolder text-success">green cat</span> will return to the top of a current page, and <span class="text-dark fw-bolder">Cat Data Pages</span> links back to this page.</p><br /><hr />
-
-	<div class="d-grid gap-2 mx-5">
+	<div class="container-fluid"><div class="row mt-3"><div class="col-sm-12 col-md-10 col-xl-6">
+	  <div class="d-grid gap-2 me-5">
 		<a class="btn fw-bold m-1 p-3 btn-outline-warning" href="{{ url_for('cat_index') }}" role="button" style="background-color: #362073;">Cat Index</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">List of all cats with pictures and descriptions. Contains links to individual cat data pages.</p>
 		<a class="btn fw-bold m-1 p-3 btn-outline-warning" href="{{ url_for('random_cat') }}" role="button" style="background-color: #362073;">Random Cat Data Page</a>
@@ -22,14 +22,14 @@
 		<p class="fs-6 ms-3 fw-bold text-secondary">Pages analyzing the various data groups as a whole.</p>
 		<a class="btn fw-bold m-1 p-3 btn-outline-warning" href="{{ url_for('api_info') }}" role="button" style="background-color: #362073;">API Information</a>
 		<p class="fs-6 ms-3 fw-bold text-secondary">We have come full circle! Details for accessing Cat-Data-Pages API.</p>		
-	</div>
-
-<br /><hr />	
-  <center id="random_cat">
-    <img src="{{ home_image }}" class="img-fluid" alt="CatAPI Image" title="Random cat, minutes remaining: {{ remaining}}"/>
-    <p class="fs-6 mb-4 text-muted fw-bold">updated {{ updated }}</p>
-  </center>
-
+	  </div>
+    </div>
+	<div class="col-md-12 col-xl-6 mt-5">	
+	  <center id="random_cat">
+		<img src="{{ home_image }}" class="img-fluid" alt="CatAPI Image" title="Random cat, minutes remaining: {{ remaining}}"/>
+		<p class="fs-6 mb-4 text-muted fw-bold">updated {{ updated }}</p>
+	  </center>
+	</div></div></div>
 <br /><hr />
 	<footer class="fw-bold text-muted d-flex flex-wrap justify-content-between align-items center my-3">
 	  <a class="justify-content-start link-secondary mx-3" href="https://github.com/NBPub/CatDataPages">
