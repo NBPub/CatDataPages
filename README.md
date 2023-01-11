@@ -104,8 +104,9 @@ This project was recently updated (Dec 2021 --> Dec 2022) as I moved it to [Rend
    * Returns graphs/information/stats for a particular or random cat
  * Gunicorn deployment on Render, associated requirements file
    * optimizing # workers / threads . . .
-   
+---   
  * Jan 2023
    * updated [code](https://github.com/NBPub/CatDataPages/blob/main/cat_data.py#L45) for change in cat breed URL
      * added note in data cleaning page, accordingly
    * changed app to prepopulate all matplotlib graphs on startup, should provide faster responses to cat pages
+     * this takes ~20s per cat, or about x minutes on the [free](https://render.com/pricing#plans) plan 

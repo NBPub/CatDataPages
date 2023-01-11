@@ -40,8 +40,9 @@ def cat_data_save(data_path):
     for i,val in enumerate(cat.weight):
         cat.loc[i,'weight_lb'] = val['imperial']
         cat.loc[i,'weight_kg'] = val['metric']
-    cat.drop(columns = 'weight', inplace = True)  
-
+    cat.drop(columns = 'weight', inplace = True)
+        
+    cat.loc[:,'image'] = ''
     # Image URL no longer provided, use ID to find IMG URL
     image_base = 'https://cdn2.thecatapi.com/images/'
     for i,val in enumerate(cat.reference_image_id):
@@ -49,8 +50,6 @@ def cat_data_save(data_path):
             cat.loc[i,'image'] = f'{val}.jpg'
         elif re.get(f'{image_base}{val}.png').status_code == 200:
             cat.loc[i,'image'] = f'{val}.png'
-        else:
-            cat.loc[i,'image'] = ''
     cat.drop(columns = 'reference_image_id', inplace=True)
         
     # Add wikipedia link to burmese cat, only one missing
