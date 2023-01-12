@@ -66,7 +66,7 @@ Name = Cat-Data-Pages
 Branch = main
 Build Command = pip install --upgrade pip setuptools wheel && pip install -r requirements_render.txt
 Start Command = gunicorn -w 2 app:app
-# threads causing error, would try "gunicorn -w 2 --threads 4 app:app
+# testing "gunicorn --workers=2 --threads=4 app:app" for start command
 
 # environment
 PYTHON_VERSION = 3.10.9
