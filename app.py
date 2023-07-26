@@ -7,7 +7,7 @@ import flask
 flask_version = flask.__version__
 del flask
 
-from flask import render_template, request, redirect, url_for, abort
+from flask import render_template, request, redirect, url_for, abort, jsonify
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -78,7 +78,12 @@ def api_info(): # help page for API requests
 def api_v1_basic(req): # image/name list API
     if req == 'image':
         home_image.update()
-        return {'URL':home_image.image, 'minutes_left': str(pd.Timedelta('10 min') - (pd.Timestamp.now() - home_image.stamp))[10:15]}
+        # testing! allow all origin for image API requests
+        # jsonify response and add header
+        response = jsonify(
+{'URL':home_image.image, 'minutes_left': str(pd.Timedelta('10 min') - (pd.Timestamp.now() - home_image.stamp))[10:15]}\)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     elif req == 'names':
         api_data = data.index[:-1]
         return {val:val.replace(' ','_').lower() for val in api_data}
@@ -240,4 +245,9 @@ def explore_spans(): # distribution of life spans, weight ranges
 @app.route("/favicon.ico")
 def favicon(): # leaving in for fun
     image = "favicon.ico"
-    return render_template('image.html', image=image)     
+    return render_template('image.html', image=image)   
+
+# ping page, keep server alive
+@app.route("/ping")
+async def ping_page():
+    return await '=^..^='
