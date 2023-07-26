@@ -81,7 +81,7 @@ def api_v1_basic(req): # image/name list API
         # testing! allow all origin for image API requests
         # jsonify response and add header
         response = jsonify(
-{'URL':home_image.image, 'minutes_left': str(pd.Timedelta('10 min') - (pd.Timestamp.now() - home_image.stamp))[10:15]}\)
+{'URL':home_image.image, 'minutes_left': str(pd.Timedelta('10 min') - (pd.Timestamp.now() - home_image.stamp))[10:15]})
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     elif req == 'names':
